@@ -10,11 +10,11 @@ Read unprocessed files from `LLM_Wiki_Project/raw/` and integrate them into `LLM
 ## Ingest Pipeline (7 Steps)
 
 1. **Source Analysis**: Read files. **CRITICAL**: Use Map-Reduce Subagents for batch ingestion (one subagent per file). Handle `_incremental.md` files by merging/updating instead of full recreation.
-2. **Type Classification**: Classify items based on [schema.yaml](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/schema.yaml) (e.g., concept, entity, person).
+2. **Type Classification**: Classify items based on [schema.yaml](../../../LLM_Wiki_Project/schema.yaml) (e.g., concept, entity, person).
    - **Email Synthesis Rule**: When reading raw emails from `raw/assets/emails/`, do NOT move the email files into the wiki. Instead, synthesize the substantive knowledge within them (e.g., people, tools, concepts, projects) and create new, dedicated wiki notes for those specific entities. **FILTERING**: Strictly ignore and skip all promotional, marketing, or spam emails. Only extract knowledge from meaningful human conversations (e.g., discussions with professors/colleagues) or highly important notices.
-3. **Domain Routing**: Route strictly according to [01_architecture.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/01_architecture.md) and [03_routing.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/03_routing.md).
-4. **Page Creation & Deduplication**: Adhere to naming and duplicate prevention rules in [04_data_hygiene.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/04_data_hygiene.md). Check local `_moc.md` before creating. Merge if exists. Skip if < 2 substantive sentences. Ensure `aliases` field exists for entities/people.
-5. **Frontmatter & Tagging**: Apply valid YAML from [schema.yaml](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/schema.yaml). Select tags exclusively from [taxonomy.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/taxonomy.md) (lowercase, hyphen-separated).
+3. **Domain Routing**: Route strictly according to [01_architecture.md](../../rules/01_architecture.md) and [03_routing.md](../../rules/03_routing.md).
+4. **Page Creation & Deduplication**: Adhere to naming and duplicate prevention rules in [04_data_hygiene.md](../../rules/04_data_hygiene.md). Check local `_moc.md` before creating. Merge if exists. Skip if < 2 substantive sentences. Ensure `aliases` field exists for entities/people.
+5. **Frontmatter & Tagging**: Apply valid YAML from [schema.yaml](../../../LLM_Wiki_Project/schema.yaml). Select tags exclusively from [taxonomy.md](../../../LLM_Wiki_Project/taxonomy.md) (lowercase, hyphen-separated).
 6. **Cross-linking**: Aggressively link `[[Page_Name]]`. Include a `## Sources` section at the bottom linking to `[[original_filename_processed.md]]`. (e.g., if the raw file is `email_123.md`, write `[[email_123_processed.md]]` because it will be renamed at the end of the pipeline).
 7. **MOC Update**: Add wikilinks to relevant `_moc.md` files (cluster by Type in Domain MOCs, alphabetical in Subfolder MOCs).
 
@@ -26,4 +26,4 @@ Read unprocessed files from `LLM_Wiki_Project/raw/` and integrate them into `LLM
 ## Hard Rules
 - **No Hallucinations**: Write ONLY facts supported by `raw/` documents.
 - **Never Delete Knowledge**: Merge safely.
-- **Respect Rules**: Follow [AGENTS.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/AGENTS.md) and its sub-rules meticulously.
+- **Respect Rules**: Follow [AGENTS.md](../../AGENTS.md) and its sub-rules meticulously.

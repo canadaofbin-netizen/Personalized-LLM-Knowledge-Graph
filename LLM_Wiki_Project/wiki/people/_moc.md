@@ -59,7 +59,7 @@ This page serves as the navigation hub for all pages in this domain.
 - [[Konstantinos_Barmpas]]
 - [[Young_D_Kwon]]
 - [[Saloni_Krishnan]]
-- [[Kyubin_Yun]]
+
 - [[Hyunjeong_Choe]]
 - [[S_A_Satheesh]]
 - [[Zoe_Walkington]]

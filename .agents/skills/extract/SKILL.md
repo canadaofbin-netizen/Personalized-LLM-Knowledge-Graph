@@ -48,7 +48,7 @@ When extracting from email JSON (e.g., `outlook_emails.json`), do NOT use the st
 This script automatically parses the JSON and generates valid markdown files with all required schema fields (`title`, `description`, `tags: [email-contact]`, `timestamp`, `sources`, etc.) in `raw/assets/emails/`. Do NOT summarize or condense email body text manually.
 
 ## Hard Rules
-- **Taxonomy**: Cross-reference [taxonomy.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/taxonomy.md) to use canonical tags.
-- **Safety**: Follow [02_operations.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/02_operations.md) for data immutability.
+- **Taxonomy**: Cross-reference [taxonomy.md](../../../LLM_Wiki_Project/taxonomy.md) to use canonical tags.
+- **Safety**: Follow [02_operations.md](../../rules/02_operations.md) for data immutability.
 - **No Hallucinations/Pre-training**: Extract only what is in the source.
 - **Incremental**: Overwrite snapshots in `raw/imports/`, but NEVER delete them.

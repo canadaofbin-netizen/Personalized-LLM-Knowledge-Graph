@@ -22,6 +22,6 @@ Ignore `_moc.md`. Flag duplicates in `wiki/log.md`.
 4. **Move Cascade:** Upon MOVING any file to a new location, you MUST: 1) Update all `[[wikilinks]]` that use explicit paths (e.g., `[[old_path/Page]]` → `[[new_path/Page]]`). 2) Update the source and destination `_moc.md` files. 3) Log the move in `wiki/log.md`.
 
 **References:**
-- [<- Back to AGENTS.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/AGENTS.md)
-- [01_architecture.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/01_architecture.md)
-- [03_routing.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/03_routing.md)
+- [<- Back to AGENTS.md](../AGENTS.md)
+- [01_architecture.md](01_architecture.md)
+- [03_routing.md](03_routing.md)

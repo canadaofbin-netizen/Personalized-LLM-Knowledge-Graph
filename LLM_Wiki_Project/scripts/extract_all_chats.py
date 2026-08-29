@@ -3,9 +3,9 @@ import glob
 import json
 from datetime import datetime
 
-brain_dir = r"C:\Users\yunky\.gemini\antigravity\brain"
-output_dir = r"g:\My Drive\Kyubin_Yun_Workspace\06_Obsidian_System\01_Obsidian_Vault\03_General\LLM_Wiki_Project\raw\assets"
-log_file = r"g:\My Drive\Kyubin_Yun_Workspace\06_Obsidian_System\01_Obsidian_Vault\03_General\LLM_Wiki_Project\raw\imports\.extract_all_log.json"
+brain_dir = os.path.expanduser("~/.gemini/antigravity/brain")
+output_dir = "./LLM_Wiki_Project/raw/assets"
+log_file = "./LLM_Wiki_Project/raw/imports/.extract_all_log.json"
 
 def load_log():
     if os.path.exists(log_file):
