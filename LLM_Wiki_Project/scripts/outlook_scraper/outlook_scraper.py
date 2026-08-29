@@ -74,10 +74,13 @@ def scrape_folder(page, folder_name, emails_data, limit, is_incremental, sync_st
                 if not row_preview_text:
                     continue
                     
-                if is_incremental and last_known_email and row_preview_text == last_known_email:
-                    print(f"Reached previously scraped email in {folder_name}. Stopping incremental scrape.")
-                    stop_scraping = True
-                    break
+                if is_incremental and last_known_email:
+                    import re
+                    def clean(t): return re.sub(r'[^a-zA-Z0-9]', '', t).lower()
+                    if clean(row_preview_text)[:100] == clean(last_known_email)[:100] and len(clean(last_known_email)) > 10:
+                        print(f"Reached previously scraped email in {folder_name}. Stopping incremental scrape.")
+                        stop_scraping = True
+                        break
                     
                 if row_preview_text not in unique_emails:
                     if not first_email_scraped:
@@ -128,13 +131,16 @@ def scrape_folder(page, folder_name, emails_data, limit, is_incremental, sync_st
 
 def scrape(limit=0, is_incremental=False):
     """Runs a headless browser using the saved session to extract data."""
-    if not os.path.exists('auth.json'):
-        print("Error: auth.json not found. Please run with --login first.")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    auth_path = os.path.join(script_dir, 'auth.json')
+    sync_state_path = os.path.join(script_dir, 'sync_state.json')
+    
+    if not os.path.exists(auth_path):
+        print(f"Error: {auth_path} not found. Please run with --login first.")
         return
 
     emails_data = []
     
-    sync_state_path = "sync_state.json"
     sync_state = {}
     if is_incremental and os.path.exists(sync_state_path):
         try:
@@ -148,7 +154,7 @@ def scrape(limit=0, is_incremental=False):
         print("Starting background scraping V2...")
         browser = p.chromium.launch(headless=True)
         # Use 1920x1080 to ensure Reading Pane is open beside the list
-        context = browser.new_context(storage_state='auth.json', viewport={'width': 1920, 'height': 1080})
+        context = browser.new_context(storage_state=auth_path, viewport={'width': 1920, 'height': 1080})
         page = context.new_page()
         
         print("Navigating to Outlook...")
@@ -171,7 +177,8 @@ def scrape(limit=0, is_incremental=False):
             print(f"Failed to save sync state: {e}")
 
     # Save to JSON
-    out_path = "../../raw/imports/outlook_emails.json"
+    out_path = os.path.join(script_dir, "..", "..", "raw", "imports", "outlook_emails.json")
+    out_path = os.path.abspath(out_path)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(emails_data, f, ensure_ascii=False, indent=4)
