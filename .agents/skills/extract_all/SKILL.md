@@ -27,9 +27,9 @@ Proactively discovers and extracts knowledge from user-authored documents across
 ## Stage 2: Proactive Gap Filler (Map-Reduce Research)
 After harvesting local chats, the agent proactively hunts for missing information on the web.
 1. **Identify Gaps**: Read `LLM_Wiki_Project/reports/lint_report.md` (specifically the "Coverage Gaps" section).
-2. **Spawn Hunters**: For each entity < 50 words (e.g., a Company or Person), spawn a `pro` subagent.
+2. **Spawn Hunters**: For each entity < 50 words (e.g., a Company or Person), spawn a subagent.
    - **Role**: Proactive Research Hunter
-   - **Prompt**: "Research [Entity Name] using the `search_web` tool. If it's a person, find their affiliation and research focus. If it's a company, find their 2027 internship roles and tech stack. Synthesize into a markdown file and save it to `./LLM_Wiki_Project/raw/assets/web_extract_[Entity].md`."
+   - **Prompt**: "Research [Entity Name] using the `search_web` tool. If it's a person, find their affiliation and research focus. If it's a company, find their core business and key products. Synthesize into a markdown file and save it to `./LLM_Wiki_Project/raw/assets/web_extract_[Entity].md`."
 
 ## Stage 3: Auto-Ingest Handoff
 Once Stage 1 and Stage 2 are complete and all new knowledge files are in `raw/assets/`:

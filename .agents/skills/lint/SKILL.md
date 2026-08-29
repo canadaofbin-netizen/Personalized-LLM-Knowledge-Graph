@@ -11,7 +11,7 @@ description: Triggers when the user uses `/lint`. Runs a comprehensive Two-Phase
 Run `python "LLM_Wiki_Project/scripts/run_linter.py"`. Read the generated `LLM_Wiki_Project/scripts/lint_report.md`.
 
 ## Phase 2: AI Semantic Sweep (Map-Reduce)
-Spawn a `pro` subagent per subfolder with markdown files:
+Spawn a subagent per subfolder with markdown files:
 - **Role**: Domain Semantic Auditor
 - **Prompt**: "Read all `.md` files in `{subfolder}`. Find hidden semantic duplicates that evade Python string-matching. Verify if tags match [taxonomy.md](../../../LLM_Wiki_Project/taxonomy.md). Return: [Duplicate Pair] - [Reason] - [Recommendation]."
 Collect all subagent results.
