@@ -46,7 +46,11 @@ LLM_Wiki_Project/
 │   ├── run_linter.py             # 13-step wiki health check
 │   ├── normalize_tags.py         # Tag normalization
 │   ├── rename_and_merge.py       # Filename correction and duplicate merge
-│   └── migrate_folders.py        # Domain folder migration
+│   ├── migrate_folders.py        # Domain folder migration
+│   ├── auto_route_raw.py         # Safely route dropped files to imports/
+│   ├── extract_all_chats.py      # Extract historical agent conversations
+│   ├── extract_emails.py         # Convert scraped JSON emails to markdown
+│   └── outlook_scraper/          # Playwright-based Outlook email scraper
 │
 ├── schema.yaml                   # Wiki schema (Required properties and types - SSOT)
 └── taxonomy.md                   # Tag taxonomy (Single Source of Truth)
