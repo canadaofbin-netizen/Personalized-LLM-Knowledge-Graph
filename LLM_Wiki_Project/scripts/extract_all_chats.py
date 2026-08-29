@@ -3,7 +3,20 @@ import glob
 import json
 from datetime import datetime
 
-brain_dir = os.path.expanduser("~/.gemini/antigravity/brain")
+# Configuration: Set your agent platform's chat history directory.
+# Default is Google Antigravity. For other platforms (Claude Code, Cursor, Aider),
+# point this to the directory where your agent saves its conversation logs, 
+# and modify the JSON/Markdown parsing logic below accordingly.
+AGENT_PLATFORM = os.environ.get("AGENT_PLATFORM", "antigravity")
+
+if AGENT_PLATFORM == "antigravity":
+    brain_dir = os.path.expanduser("~/.gemini/antigravity/brain")
+elif AGENT_PLATFORM == "claude_code":
+    # Example path for Claude Code - update if necessary
+    brain_dir = os.path.expanduser("~/.claude/logs") 
+else:
+    brain_dir = os.environ.get("AGENT_TRANSCRIPT_DIR", os.path.expanduser("~/.gemini/antigravity/brain"))
+
 output_dir = "./LLM_Wiki_Project/raw/assets"
 log_file = "./LLM_Wiki_Project/raw/imports/.extract_all_log.json"
 

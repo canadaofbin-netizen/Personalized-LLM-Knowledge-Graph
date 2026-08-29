@@ -246,3 +246,15 @@ Each folder's `_moc.md` serves as its **Navigation Hub**.
 - `getGoogleDocContent`: Read Google Docs content
 - `getGoogleSheetContent`: Read Google Sheets content
 - `getGoogleSlidesContent`: Read Google Slides content
+
+---
+
+## Compatibility & Portability (Other Agent IDEs)
+
+This template is fundamentally built around the Antigravity Agent Protocol (via the `.agents` folder), but the core principles and python scripts are perfectly adaptable for users on other agentic IDE platforms (e.g., **Claude Code**, **Cursor**, **Aider**, **GitHub Copilot Workspace**).
+
+### How to use on other platforms:
+1. **Chat History Extraction**: The `/extract_all` skill relies on `scripts/extract_all_chats.py`, which by default targets Google Antigravity's transcript folder (`~/.gemini/antigravity/brain`). If you use Claude Code or Cursor, you can change the target directory either by setting the environment variable `AGENT_PLATFORM=claude_code` / `AGENT_TRANSCRIPT_DIR` before running, or by modifying the Python script's `brain_dir` variable to point to your platform's log directory.
+2. **Rules & Architecture**: Provide the `AGENTS.md` file as the system prompt or custom instructions in your agent IDE to enforce the same wiki schema and data hygiene rules.
+3. **Scripts**: All python scripts (`run_linter.py`, `generate_mocs.py`, etc.) are entirely platform-agnostic and rely only on standard Markdown parsing.
+
