@@ -1,0 +1,19 @@
+/* Graph View Enhancement Snippet */
+/* Adds subtle glow effects and smoother visuals to the knowledge graph */
+
+/* Graph background - slightly darker for better contrast with colored nodes */
+.graph-view.mod-3d .graph-view-container,
+.graph-view .graph-view-container {
+  background-color: var(--background-primary);
+}
+
+/* Node hover glow effect */
+.graph-view .graph-view-container canvas {
+  image-rendering: optimizeQuality;
+}
+
+/* Make the graph view text more readable */
+.graph-view .graph-view-container .graph-view-label {
+  font-family: var(--font-interface);
+  font-weight: 500;
+}

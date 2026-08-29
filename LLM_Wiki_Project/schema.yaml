@@ -1,0 +1,85 @@
+# Central Schema Registry for LLM Wiki Project
+# This file is the Single Source of Truth (SSOT) for both the Linter (Python) and the AI Agents (Markdown Rules).
+
+required_fields:
+  - type
+  - title
+  - description
+  - tags
+  - timestamp
+  - sources
+
+valid_types:
+  - concept
+  - entity
+  - person
+  - tool
+  - project
+  - summary
+  - log
+  - moc
+  - overview
+  - reading_note
+  - collection
+  - index
+  - lecture_note
+  - email
+
+type_specific_fields:
+  concept:
+    - aliases
+  entity:
+    - aliases
+  person:
+    - role
+    - affiliation
+    - aliases
+  tool:
+    - category
+    - url
+    - aliases
+  project:
+    - status
+    - start_date
+    - end_date
+  log:
+    - date
+    - domain
+  moc:
+    - domain
+  email:
+    - sender
+    - date
+    - folder
+    - topics
+    - sentiment
+  summary:
+    - scope
+    - key_conclusions
+  overview:
+    - scope
+    - domains_covered
+  reading_note:
+    - author
+    - publication_year
+    - isbn
+  collection:
+    - item_count
+    - criteria
+  index:
+    - domains_listed
+  lecture_note:
+    - course
+    - instructor
+    - lecture_date
+
+domains:
+  - wiki
+  - academic
+  - business
+  - dev
+  - projects
+  - people
+  - tools
+  - languages
+  - personal

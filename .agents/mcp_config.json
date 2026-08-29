@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "notebooklm": {
+      "command": "npx.cmd",
+      "args": ["-y", "notebooklm-mcp@latest"],
+      "env": {
+        "HEADLESS": "false"
+      }
+    },
+    "google-drive": {
+      "command": "npx.cmd",
+      "args": ["-y", "@hachiai/mcp-google-drive@latest"],
+      "env": {
+        "GOOGLE_DRIVE_OAUTH_CREDENTIALS": "%USERPROFILE%\\.gemini\\gcp-oauth.keys.json",
+        "GOOGLE_DRIVE_MCP_TOKEN_PATH": "%USERPROFILE%\\.config\\mcp-google-drive\\tokens.json"
+      }
+    }
+  }
+}

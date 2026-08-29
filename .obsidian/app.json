@@ -1,0 +1,6 @@
+{
+  "userIgnoreFilters": [
+    "notebooklm_chunk*",
+    "merged_for_notebooklm*"
+  ]
+}

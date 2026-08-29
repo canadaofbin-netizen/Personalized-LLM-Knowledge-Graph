@@ -1,0 +1,86 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": true,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": false,
+  "collapse-color-groups": true,
+  "colorGroups": [
+    {
+      "query": "[type: concept]",
+      "color": {
+        "a": 1,
+        "rgb": 6066169
+      }
+    },
+    {
+      "query": "[type: person]",
+      "color": {
+        "a": 1,
+        "rgb": 16342159
+      }
+    },
+    {
+      "query": "[type: tool]",
+      "color": {
+        "a": 1,
+        "rgb": 9435484
+      }
+    },
+    {
+      "query": "[type: project]",
+      "color": {
+        "a": 1,
+        "rgb": 16360284
+      }
+    },
+    {
+      "query": "[type: entity]",
+      "color": {
+        "a": 1,
+        "rgb": 13196537
+      }
+    },
+    {
+      "query": "[type: moc]",
+      "color": {
+        "a": 1,
+        "rgb": 16374108
+      }
+    },
+    {
+      "query": "[type: overview]",
+      "color": {
+        "a": 1,
+        "rgb": 16777215
+      }
+    },
+    {
+      "query": "[type: log]",
+      "color": {
+        "a": 1,
+        "rgb": 8947848
+      }
+    },
+    {
+      "query": "[type: summary]",
+      "color": {
+        "a": 1,
+        "rgb": 6093273
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": false,
+  "textFadeMultiplier": -2.1,
+  "nodeSizeMultiplier": 1.43566829268293,
+  "lineSizeMultiplier": 1.09912195121951,
+  "collapse-forces": false,
+  "centerStrength": 0,
+  "repelStrength": 20,
+  "linkStrength": 1,
+  "linkDistance": 500,
+  "scale": 0.0078125,
+  "close": false
+}

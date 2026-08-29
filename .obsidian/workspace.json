@@ -1,0 +1,223 @@
+{
+  "main": {
+    "id": "e5ac61f282a5ac9e",
+    "type": "split",
+    "children": [
+      {
+        "id": "80f1f74e0eb4ebc7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2a7795b9e7104a58",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "3c90b4bc5354528f",
+    "type": "split",
+    "children": [
+      {
+        "id": "cf7a80b2caad3b6b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2654d35cca32a1c8",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "7a2e4c24fc4b0e56",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#academic",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "7d87ea8bb169a4fe",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "f3129083373391d8",
+    "type": "split",
+    "children": [
+      {
+        "id": "0d219784fcc77463",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c671b6cfc9e6886f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "7c2d77497bc88aee",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "1bc8574bb7f5e297",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "1c50b1f384bfc1b4",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "6626c49f950d8b04",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "2a7795b9e7104a58",
+  "lastOpenFiles": [
+    "LLM_Wiki_Project/wiki/tools/Managing_Large_Scale_Obsidian_Vaults.md",
+    "LLM_Wiki_Project/wiki/people/_moc.md",
+    "LLM_Wiki_Project/wiki/people/Kyubin_I.md",
+    "email_345.md",
+    "LLM_Wiki_Project/wiki/personal/_moc.md",
+    "LLM_Wiki_Project/wiki/personal/Re_J_1_Student_Intern_Application.md",
+    "LLM_Wiki_Project/wiki/people/Kyubin_Yun.md",
+    "LLM_Wiki_Project/wiki/tools/Futurelearn.md",
+    "LLM_Wiki_Project/wiki/tools/Celonis.md",
+    "LLM_Wiki_Project/wiki/personal/Familial_Alzheimers_Disease_And_Dementia.md",
+    "LLM_Wiki_Project/wiki/projects/Exploring_Associations_Between_Feedback_Seeking_And_Body_Dysmorphic_Symptoms.md",
+    "LLM_Wiki_Project/wiki/projects/How_Do_The_Eyes_Contribute_To_Conversation.md",
+    "LLM_Wiki_Project/wiki/projects/Bsma_Full_Text_Coding.md",
+    "LLM_Wiki_Project/wiki/projects/Relmed_Investigating_Effects_Of_Antidepressants.md",
+    "LLM_Wiki_Project/wiki/people/Lara_Erritt.md",
+    "LLM_Wiki_Project/wiki/people/Laina_Townsend.md",
+    "LLM_Wiki_Project/wiki/people/Gurket_Kaur.md",
+    "LLM_Wiki_Project/wiki/people/Tobias_Ashdown.md",
+    "LLM_Wiki_Project/wiki/people/Zeguo_Qiu.md",
+    "LLM_Wiki_Project/raw/assets/emails/email_155_processed.md",
+    "LLM_Wiki_Project/raw/assets/emails/email_154_processed.md",
+    "LLM_Wiki_Project/raw/assets/emails/email_153_processed.md",
+    "LLM_Wiki_Project/raw/assets/emails/email_152_processed.md",
+    "LLM_Wiki_Project/raw/assets/emails/email_151_processed.md",
+    "LLM_Wiki_Project/raw/assets/emails/email_150_processed.md",
+    "LLM_Wiki_Project/raw/assets/emails/email_146_processed.md",
+    "LLM_Wiki_Project/reports",
+    "LLM_Wiki_Project/wiki/personal",
+    "LLM_Wiki_Project/wiki/languages",
+    "LLM_Wiki_Project/wiki/tools",
+    "LLM_Wiki_Project/wiki/people",
+    "LLM_Wiki_Project/wiki/projects",
+    "LLM_Wiki_Project/wiki/dev",
+    "LLM_Wiki_Project/wiki/business",
+    "LLM_Wiki_Project/wiki/academic",
+    "LLM_Wiki_Project/raw/assets/emails",
+    "{9D53B04A-4C97-4E13-BDA1-2EB0DC9B1F8A}.png",
+    "Untitled.canvas"
+  ]
+}

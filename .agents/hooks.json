@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "command": "Run /extract in live-conversation mode only (Mode 1 — do NOT scan Drive files or folders). Automatically save any substantive knowledge from this conversation to raw/ folder. If no extractable knowledge content was discussed, do NOT create a file and do NOT output any message.",
+        "type": "prompt",
+        "enabled": true
+      }
+    ]
+  }
+}
