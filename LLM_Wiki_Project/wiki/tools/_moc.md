@@ -25,11 +25,3 @@ This page serves as the navigation hub for all pages in this domain.
 ## Other Pages
 <!-- Auto-updated by /ingest for person, tool, project, log pages -->
 
-- [[Qualtrics]]
-- [[Gradintelligence]]
-- [[Sona_Systems]]
-- [[Ai_Paper_Screening_Tool]]
-- [[Playwright]]
-- [[Accessing_Obsidian_Second_Brain_With_Gemini_On_Ipad]]
-- [[Celonis]]
-- [[Futurelearn]]

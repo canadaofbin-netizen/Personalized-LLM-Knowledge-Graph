@@ -7,10 +7,10 @@ description: End-to-end Proactive Knowledge Hunter. Harvests all past conversati
 
 This skill orchestrates a massive extraction and proactive research pipeline to gather maximum knowledge before handing off to `/ingest`.
 
-## Stage 1: Pan-Conversation Harvester
+## Stage 1: Pan-Conversation Harvester (Local Extract)
 Extracts knowledge from ALL historical Antigravity conversations.
 **Command**: `python "LLM_Wiki_Project/scripts/extract_all_chats.py"`
-- **Behavior**: Scans `C:/Users/yunky/.gemini/antigravity/brain/*/` for `transcript.jsonl` files.
+- **Behavior**: Scans `~/.gemini/antigravity/brain/*/` (or configured platform log directory) for `transcript.jsonl` files.
 - **Filtering**: Captures `USER_INPUT` and `PLANNER_RESPONSE` (skips raw tool outputs to save tokens).
 - **Incremental**: Uses `LLM_Wiki_Project/raw/imports/.extract_all_log.json` to skip previously processed transcripts.
 - **Output**: Dumps chunked markdown files (e.g., `archive_chat_chunk_X.md`) into `raw/assets/`.

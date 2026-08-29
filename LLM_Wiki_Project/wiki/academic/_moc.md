@@ -25,7 +25,3 @@ This page serves as the navigation hub for all pages in this domain.
 ## Other Pages
 <!-- Auto-updated by /ingest for person, tool, project, log pages -->
 
-- [[Comprehensive_Analysis_Of_Forced_Choice_Questionnaires_And_Psychometrics]]
-- [[Cold_Email_Strategy_For_Bci_Research_Labs]]
-- [[Samsung_Ai_Center_Cambridge]]
-- [[Higher_Education_Achievement_Report]]

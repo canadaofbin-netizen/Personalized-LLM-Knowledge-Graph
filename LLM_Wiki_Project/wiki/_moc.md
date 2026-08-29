@@ -21,4 +21,3 @@ domain: wiki
 
 ## Index
 
-- [[index]]
