@@ -48,7 +48,10 @@ When extracting from email JSON (e.g., `outlook_emails.json`), do NOT use the st
 This script automatically parses the JSON and generates valid markdown files with all required schema fields (`title`, `description`, `tags: [email-contact]`, `timestamp`, `sources`, etc.) in `raw/assets/emails/`. Do NOT summarize or condense email body text manually.
 
 ## Hard Rules
-- **Taxonomy**: Cross-reference [taxonomy.md](../../../LLM_Wiki_Project/taxonomy.md) to use canonical tags.
-- **Safety**: Follow [02_operations.md](../../rules/02_operations.md) for data immutability.
+- **Taxonomy**: Cross-reference [taxonomy.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/taxonomy.md) to use canonical tags.
+- **Safety**: Follow [02_operations.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/02_operations.md) for data immutability.
 - **No Hallucinations/Pre-training**: Extract only what is in the source.
+- **Entity Grounding Anchor Protocol**: When extracting or researching people/organizations, NEVER search names in isolation. Always anchor queries with institutional context (`"[Name]" "[University/Lab/Company]" "[Department]"`). If external search affiliations conflict with source documents, strictly REJECT merging to prevent entity conflation.
+- **Newsletter & Broadcast Filter**: Never extract automated mailing lists, newsletter bots, or broadcast notifications (e.g., `no-reply@*`, `Moodle`, `Students' Union`, `notifications@*`) as `people` profiles. Record their contents under relevant projects or logs.
+- **Source Citation Standard**: Never wrap raw source filenames in `[[wikilinks]]`. Always cite them as plain text strings (`- filename.md` or `sources: ['filename.md']`).
 - **Incremental**: Overwrite snapshots in `raw/imports/`, but NEVER delete them.

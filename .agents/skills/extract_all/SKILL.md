@@ -7,10 +7,10 @@ description: End-to-end Proactive Knowledge Hunter. Harvests all past conversati
 
 This skill orchestrates a massive extraction and proactive research pipeline to gather maximum knowledge before handing off to `/ingest`.
 
-## Stage 1: Pan-Conversation Harvester (Local Extract)
+## Stage 1: Pan-Conversation Harvester
 Extracts knowledge from ALL historical Antigravity conversations.
 **Command**: `python "LLM_Wiki_Project/scripts/extract_all_chats.py"`
-- **Behavior**: Scans `~/.gemini/antigravity/brain/*/` (or configured platform log directory) for `transcript.jsonl` files.
+- **Behavior**: Scans `C:/Users/yunky/.gemini/antigravity/brain/*/` for `transcript.jsonl` files.
 - **Filtering**: Captures `USER_INPUT` and `PLANNER_RESPONSE` (skips raw tool outputs to save tokens).
 - **Incremental**: Uses `LLM_Wiki_Project/raw/imports/.extract_all_log.json` to skip previously processed transcripts.
 - **Output**: Dumps chunked markdown files (e.g., `archive_chat_chunk_X.md`) into `raw/assets/`.
@@ -22,14 +22,14 @@ Proactively discovers and extracts knowledge from user-authored documents across
   2. **Relevance Filter**: AI evaluates each file name and folder context against known wiki projects (cross-reference `wiki/projects/_moc.md`). **INCLUDE**: User-authored docs related to ongoing projects, research designs, study overviews, survey instruments, meeting notes, collaboration materials, and personal plans. **EXCLUDE**: Published papers, textbooks, downloaded course slides, media files, and any document the user did not author. The goal is to capture the user's **actions and artifacts**, not external reference material.
   3. **Content Extraction**: For relevant files, use Drive MCP `downloadFile` (export Google Docs as `text/plain`, Sheets as `text/csv`) to read contents. Extract substantive knowledge into markdown files in `raw/assets/`.
   4. **Incremental**: Track scanned files in `LLM_Wiki_Project/raw/imports/.drive_scan_log.json` (`{"fileId": "...", "name": "...", "last_scanned": "...", "content_hash": "..."}`). Skip unchanged files on subsequent runs.
-- **Spawn Strategy**: Use Map-Reduce subagents — one subagent per top-level Drive folder to parallelize scanning.
+- **Spawn Strategy**: Use Map-Reduce subagents — one subagent per top-level Drive folder to parallelize scanning. **Concurrency Limit**: Batch subagent invocations to a maximum of 15 at a time to prevent `429` errors.
 
 ## Stage 2: Proactive Gap Filler (Map-Reduce Research)
 After harvesting local chats, the agent proactively hunts for missing information on the web.
 1. **Identify Gaps**: Read `LLM_Wiki_Project/reports/lint_report.md` (specifically the "Coverage Gaps" section).
-2. **Spawn Hunters**: For each entity < 50 words (e.g., a Company or Person), spawn a subagent.
+2. **Spawn Hunters**: For each entity < 50 words (e.g., a Company or Person), spawn a `pro` subagent. **Concurrency Limit**: Batch subagent invocations to a maximum of 15 concurrently.
    - **Role**: Proactive Research Hunter
-   - **Prompt**: "Research [Entity Name] using the `search_web` tool. If it's a person, find their affiliation and research focus. If it's a company, find their core business and key products. Synthesize into a markdown file and save it to `./LLM_Wiki_Project/raw/assets/web_extract_[Entity].md`."
+   - **Prompt**: "Research [Entity Name] using the `search_web` tool. Always ground search queries with institutional context (e.g. '[Entity Name] [Institution/Lab/Company]') to prevent conflating distinct entities. Verify their institutional affiliation before synthesizing. Never create person profiles for automated newsletters (no-reply, Moodle, Students' Union). Format source citations as plain strings, never `[[wikilinks]]`. Synthesize into a markdown file and save it to `g:/My Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/raw/assets/web_extract_[Entity].md`."
 
 ## Stage 3: Auto-Ingest Handoff
 Once Stage 1 and Stage 2 are complete and all new knowledge files are in `raw/assets/`:
@@ -39,3 +39,6 @@ Once Stage 1 and Stage 2 are complete and all new knowledge files are in `raw/as
 ## Hard Rules
 - **Taxonomy**: Cross-reference `taxonomy.md` to use canonical tags.
 - **Safety**: Do not delete any existing wiki files during extraction. Follow operations rules.
+- **Source Citation**: Never enclose raw source filenames in `[[wikilinks]]`. Always cite as plain text.
+- **Entity Grounding**: Never search or merge external entities without verifying institutional affiliation.
+
