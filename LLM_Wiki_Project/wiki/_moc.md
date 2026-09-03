@@ -4,7 +4,7 @@ title: "Wiki Map of Content"
 aliases: ["Wiki MOC", "Wiki Map of Content"]
 description: "Navigation hub for Wiki domain pages."
 tags: [wiki]
-timestamp: 2026-08-21
+timestamp: 2026-09-02
 sources: []
 domain: wiki
 ---
@@ -13,11 +13,23 @@ domain: wiki
 
 ## Subfolders
 
-(No subdomains populated yet.)
+- [[academic/_moc|Academic]]
+- [[business/_moc|Business]]
+- [[career/_moc|Career]]
+- [[dev/_moc|Dev]]
+- [[people/_moc|People]]
+- [[personal/_moc|Personal]]
+- [[projects/_moc|Projects]]
+- [[tools/_moc|Tools]]
 
-## Logs
+## Other
 
-- [[log]] — Chronological record of wiki operations
+- [[log]]
 
 ## Index
 
+- [[index]]
+
+## Overview
+
+- [[overview]]

@@ -1,6 +1,20 @@
-# LLM Wiki & Knowledge Graph System (Antigravity 2nd Brain)
+﻿# Personalized LLM Knowledge Graph & Second Brain System
 
-A fully autonomous, self-healing Personal Knowledge Base and Knowledge Graph engineered for academic research, neurotechnology, organizational psychometrics, and career development. Powered by **Google Antigravity AI Agents**, **Python AST processing engines**, and **Obsidian Graph View**.
+A fully autonomous, self-healing Personal Knowledge Base and Knowledge Graph engineered for research, software development, career strategy, and personal knowledge management. Powered by **AI Agents**, **Deterministic Python AST Processing Engines**, and **Obsidian Graph View**.
+
+---
+
+> [!NOTE]
+> ### 🌐 Multi-Platform Compatibility & Adaptation Notice
+> This repository was originally developed and optimized within the **Google Antigravity** environment (.agents/ architecture).
+> If you are using **Claude (Claude Code, Claude Projects)**, **Codex / Cursor**, or other AI coding environments, this repository includes universal bridge adapters:
+>
+> 1. **Claude Code**: Works out of the box via [CLAUDE.md](CLAUDE.md) in the project root.
+> 2. **Cursor / Windsurf**: Automatic rule enforcement via [.cursorrules](.cursorrules).
+> 3. **Chat Data Extraction (scripts/extract_all_chats.py)**:
+>    - Configure your local agent session folder in .env (AGENT_TRANSCRIPT_DIR=...).
+>    - Or drop your exported conversations.json (from Claude.ai or ChatGPT data exports) directly into LLM_Wiki_Project/raw/imports/ for automated batch conversion into markdown.
+> 4. **Single-Agent Fallback**: In environments without subagent swarm capabilities (invoke_subagent), all ingestion and linter tasks can be run deterministically via the CLI scripts under LLM_Wiki_Project/scripts/.
 
 ---
 
@@ -13,63 +27,64 @@ A fully autonomous, self-healing Personal Knowledge Base and Knowledge Graph eng
 6. [Obsidian Graph View & UI Configuration](#6-obsidian-graph-view--ui-configuration)
 7. [Directory Tree & System Structure](#7-directory-tree--system-structure)
 8. [CLI Execution Guide & Maintenance Workflows](#8-cli-execution-guide--maintenance-workflows)
+9. [Quick Start & Customization Guide](#9-quick-start--customization-guide)
+10. [License & Attribution](#10-license--attribution)
 
 ---
 
 ## 1. System Overview & Architecture Philosophy
 
-The **LLM Wiki Project** is a production-grade personal knowledge management (PKM) system that continuously converts raw conversations, cloud documents, academic papers, and enterprise communications into a structured, bidirectional knowledge graph. It is maintained autonomously by Antigravity multi-agent swarms operating under strict deterministic engineering constraints.
+The **Personalized LLM Knowledge Graph** is a production-grade personal knowledge management (PKM) system that continuously transforms unstructured chats, cloud documents, academic literature, and email communications into a structured, bidirectional knowledge graph.
 
-```
+`
 ┌──────────────────────────────────────────────────────────────────────────────────┐
-│                             ANTIGRAVITY 2ND BRAIN                                │
+│                      PERSONALIZED LLM KNOWLEDGE GRAPH                            │
 │                                                                                  │
 │   [Raw Sources]            [AI Agent Swarm]              [Knowledge Graph]       │
-│  • Agent Chats (840+)    • Ingest Mappers (1:N, 1:1)   • 8 Canonical Domains     │
-│  • Google Drive Docs     • Knowledge Hunters           • 24 Maps of Content      │
+│  • Agent Chat Logs       • Ingest Mappers (1:N, 1:1)   • 8 Canonical Domains     │
+│  • Google Drive Docs     • Knowledge Gap Hunters       • Dynamic Maps of Content │
 │  • Outlook Emails        • AST Reducer Engine          • Bidirectional Wikilinks │
 │  • Web Crawl History     • 22-Check Python Linter      • Obsidian Visual Graph   │
 └──────────────────────────────────────────────────────────────────────────────────┘
-```
+`
 
 ### Core Engineering Directives
 1. **English-Only Standardization (Rule 01.3)**:
-   - All knowledge base notes must be written exclusively in professional technical English. Raw conversation transcripts in native languages are synthesized and translated into technical prose upon ingestion.
+   - All knowledge base notes must be written in professional technical English. Raw conversation transcripts in other languages are translated and synthesized into structured technical prose upon ingestion.
 2. **Deterministic Routing & Flat Hierarchy (Rule 01.1 & 01.5)**:
-   - File placement is determined by canonical type overrides and Level-2 taxonomy categories. Folder nesting is strictly capped at a maximum depth of 2 levels below `wiki/` (e.g., `wiki/academic/eeg/`). Creating directories outside the 8 canonical domains or with spaces is strictly prohibited.
+   - File placement is determined by canonical type overrides and Level-2 taxonomy categories. Folder nesting is strictly capped at a maximum depth of 2 levels below wiki/ (e.g., wiki/academic/machine-learning/). Creating directories outside the 8 canonical domains or with spaces is strictly prohibited.
 3. **Ghost Node Eradication (Rule 04.5)**:
-   - Obsidian's Graph View generates unresolved "ghost" nodes whenever target files do not exist or when raw source filenames are enclosed in wikilinks. Raw assets (e.g., `email_*.md`, `chat_extract_*.md`) must **never** be linked via `[[...]]`. They are cited as plain text strings in frontmatter `sources:` lists and markdown body `## Sources` sections.
+   - Obsidian's Graph View generates unresolved grey "ghost" nodes whenever target files do not exist or when raw source filenames are enclosed in wikilinks. Raw assets (e.g., email_*.md, chat_extract_*.md) must **never** be linked via [[...]]. They are cited as plain text strings in frontmatter sources: lists and body ## Sources sections.
 4. **Dual-Layer Hygiene & Prevention Architecture**:
-   - **Layer A (AI Prompt Rules)**: Strict behavioral directives in `.agents/rules/` that enforce single frontmatter blocks, entity grounding anchors, and plaintext citations at generation time.
-   - **Layer B (Deterministic AST Python Engine)**: `reduce.py` and `run_linter.py` parse YAML abstract syntax trees, merge set-union properties, and hash paragraphs to eliminate duplicates before committing.
+   - **Layer A (AI Prompt Rules)**: Strict behavioral directives in .agents/rules/, CLAUDE.md, and .cursorrules that enforce single frontmatter blocks, entity grounding anchors, and plaintext citations at generation time.
+   - **Layer B (Deterministic AST Python Engine)**: educe.py and un_linter.py parse YAML abstract syntax trees, merge set-union properties, and hash paragraphs to eliminate duplicates before committing.
 
 ---
 
 ## 2. Canonical 8 Root Domains Architecture
 
-The wiki is organized into exactly eight canonical root directories under `wiki/`. Creating folders with spaces (e.g., `personal projects/`, `computer science/`) or unapproved root directories is blocked by Check 22 of the system linter.
+The knowledge base is organized into exactly eight canonical root directories under wiki/. Creating unapproved root directories or naming folders with spaces is blocked by the system linter.
 
-| Domain | Scope & Knowledge Focus | Subfolder Structure | Representative Notes |
+| Domain | Scope & Knowledge Focus | Subfolder Structure | Representative Examples |
 | :--- | :--- | :--- | :--- |
-| **`academic/`** | Neuroscience, EEG signal processing, BCI theory, psychometrics, UCL & OU academic modules. | `eeg/`, `hybrid/`, `psychology/`, `survey/`, `ucl/`, `citi/`, `google/`, `reading_notes/` | `Brain_Computer_Interface.md`, `EEG.md`, `Psychometrics.md`, `University_College_London.md` |
-| **`business/`** | Organizational behavior, management science, enterprise AI strategy, corporate dossiers. | `samsung/` | `Samsung_AI_Center_Cambridge.md`, `Overcome.md`, `Academy_Of_Management.md` |
-| **`career/`** | Target laboratory profiles, CV/resume master dossiers, interview preparation strategies. | *(Top-level flat)* | `Kyubin_Yun_Resume.md`, `Target_Companies_Dossier.md`, `Internship_Interview_Prep_Full.md` |
-| **`dev/`** | Software engineering, multi-agent frameworks, Playwright scraping, data pipelines. | `ai/` | `Accessibility_Tree_Parsing.md`, `Computer_Understanding.md`, `GitHub_Development_Browsing_History.md` |
-| **`people/`** | Academic collaborators, professors, research directors, recruiters (`type: person`). | *(Top-level flat)* | `Kyubin_Yun.md`, `Jeongjin_Kim.md`, `Pok_Man_Tang.md`, `Dimitrios_Adamos.md` |
-| **`personal/`** | Technical study notes, remote exam protocols (OPIc), educational milestones. | *(Top-level flat)* | `Definition_Of_Prevalence.md`, `Taking_The_Opic_Exam_Online_Via_Remote_Proctoring_In_The_Us.md` |
-| **`projects/`** | Active engineering and academic research initiatives led by Kyubin Yun. | `eeg/`, `internships/`, `personal-projects/`, `research-projects/` | `Boundary_Spanning_Meta_Analysis.md`, `Eeg_Smart_Glasses_Interface.md`, `Adhd_X_Mfc_Project.md` |
-| **`tools/`** | Hardware platforms, ambient recording devices, PKM tools, experimental software. | *(Top-level flat)* | `Obsidian_Second_Brain_Architecture.md`, `Wearable_Ai_Recording_Devices.md`, `Playwright.md` |
+| **cademic/** | Research papers, scientific theories, mathematics, study modules. | eeg/, machine-learning/, psychology/, 
+euroscience/ | Brain_Computer_Interface.md, Deep_Learning_Architectures.md, Cognitive_Psychology.md |
+| **usiness/** | Organizational behavior, management strategy, enterprise AI, market dossiers. | strategy/, inance/, case-studies/ | Enterprise_AI_Strategy.md, Organizational_Behavior.md, Market_Analysis.md |
+| **career/** | Master resumes/CVs, target companies, interview prep, skill matrices. | *(Top-level flat)* | Master_Resume_Dossier.md, Target_Companies_Dossier.md, Technical_Interview_Preparation.md |
+| **dev/** | Software engineering, data pipelines, web scrapers, DevOps & MLOps. | i/, pipelines/, rameworks/ | Data_Pipeline_Architecture.md, Playwright_Web_Scraper.md, API_Design_Patterns.md |
+| **people/** | Academic collaborators, mentors, authors, industry leaders (	ype: person). | *(Top-level flat)* | Alan_Turing.md, Claude_Shannon.md, Research_Advisor.md |
+| **personal/** | Personal reflections, learning milestones, productivity workflows, administration. | *(Top-level flat)* | Yearly_Goals_And_Reflections.md, Certification_Study_Guide.md |
+| **projects/** | Active engineering and academic research initiatives (	ype: project). | coursework/, internships/, personal-projects/, esearch/ | Knowledge_Graph_Pipeline.md, Open_Source_Contribution.md |
+| **	ools/** | Software platforms, hardware instruments, developer utilities (	ype: tool). | *(Top-level flat)* | Obsidian_Second_Brain_Architecture.md, Playwright_Browser_Automation.md |
 
 ---
 
 ## 3. End-to-End Pipeline & Data Lifecycle
 
-The system implements a continuous data lifecycle moving from raw ingest queues to permanent structured storage and automated quality assurance.
-
-```mermaid
+`mermaid
 flowchart TD
     subgraph S1 [Sources Layer]
-        C1[Antigravity Chat Sessions]
+        C1[Agent Chat Logs]
         C2[Google Drive Docs / Sheets]
         C3[Outlook OWA Webmail]
         C4[Web Research History]
@@ -90,7 +105,7 @@ flowchart TD
 
     subgraph S4 [Storage & Navigation Layer]
         W1[("wiki/ (8 Canonical Domains)")]
-        MC["scripts/generate_mocs.py (24 MOCs)"]
+        MC["scripts/generate_mocs.py (MOCs)"]
         AR[("raw/processed/ (Archive)")]
     end
 
@@ -114,113 +129,111 @@ flowchart TD
     W1 --> L1
     L1 --> L2
     W1 --> OB
-```
+`
 
 ### Data Lifecycle Transitions
-1. **Raw Ingestion Queue (`raw/assets/`)**:
-   - Newly extracted files (`chat_extract_*.md`, `email_*.md`, `drive_doc_*.md`) land here. Files remain here only while awaiting ingestion.
-2. **Knowledge Base (`wiki/`)**:
-   - The permanent repository of structured knowledge. Every page adheres strictly to `schema.yaml` and contains bidirectional wikilinks to related concepts.
-3. **Permanent Archive (`raw/processed/`)**:
-   - Upon successful ingestion and reduction by `reduce.py`, raw source files are moved out of the queue into `raw/processed/` to guarantee idempotency and prevent duplicate processing.
-4. **Incremental Logs (`raw/imports/`)**:
-   - Maintains diff tracking logs: `.extract_all_log.json` (indexed chat IDs), `.drive_scan_log.json` (Google Drive file checksums), and `.extract_emails_log.json` (scraped email message IDs).
+1. **Raw Ingestion Queue (aw/assets/)**:
+   - Newly extracted files (chat_extract_*.md, email_*.md, drive_doc_*.md) land here. Files remain here only while awaiting ingestion.
+2. **Knowledge Base (wiki/)**:
+   - The permanent repository of structured knowledge. Every page adheres strictly to schema.yaml and contains bidirectional wikilinks to related concepts.
+3. **Permanent Archive (aw/processed/)**:
+   - Upon successful ingestion and reduction by educe.py, raw source files are cleanly archived into aw/processed/ to guarantee idempotency and prevent duplicate processing.
+4. **Incremental Logs (aw/imports/)**:
+   - Maintains diff tracking logs: .extract_all_log.json (indexed chat IDs), .drive_scan_log.json (Google Drive file checksums), and .extract_emails_log.json (scraped email message IDs).
 
 ---
 
 ## 4. Command Skills Specification (7 Skills)
 
-All operations are modularized as standard agent skills in `.agents/skills/`.
+All operations are modularized as standard agent skills in .agents/skills/:
 
-### 1. `/extract` — Incremental Knowledge Extraction
-- **Trigger**: `/extract [optional: file_path | folder_path]`
-- **Purpose**: Extracts structured technical information from live conversation contexts, Google Drive files, or local PDFs without premature summarization.
-- **Incremental Logic**: Evaluates file hash and timestamp against `raw/imports/.extract_log.json`. If unchanged, extraction is skipped. If modified, extracts only the diff.
-- **Output**: Writes immutable markdown source files to `raw/assets/`.
+### 1. /extract — Incremental Knowledge Extraction
+- **Trigger**: /extract [optional: file_path | folder_path]
+- **Purpose**: Extracts structured technical information from live conversation contexts, Google Drive files, or local documents without premature summarization.
+- **Output**: Writes immutable markdown source files to aw/assets/.
 
-### 2. `/extract_all` — The Proactive Knowledge Hunter
-- **Trigger**: `/extract_all`
-- **Purpose**: Mass-harvests all historical conversations across Antigravity sessions and fills knowledge coverage gaps in the wiki.
+### 2. /extract_all — Proactive Knowledge Hunter
+- **Trigger**: /extract_all
+- **Purpose**: Mass-harvests historical conversations across AI sessions and fills knowledge coverage gaps in the wiki.
 - **Workflow**:
-  1. Scans `C:/Users/yunky/.gemini/antigravity/brain/*/transcript.jsonl` (840+ sessions).
-  2. Compares conversation IDs against `.extract_all_log.json` to process only new chats.
-  3. Inspects `reports/lint_report.md` for entities flagged as "Too short (<50 words)".
-  4. Spawns web research subagents with the **Entity Grounding Anchor Protocol** (`"[Entity Name]" "[Affiliation]" "[Field]"`) to harvest missing details without identity conflation.
+  1. Scans transcript logs from configured agent directory (or exported conversations.json).
+  2. Compares conversation IDs against .extract_all_log.json to process only new sessions.
+  3. Inspects eports/lint_report.md for entities flagged as "Too short (<50 words)".
+  4. Dispatches web research subagents with the **Entity Grounding Anchor Protocol** ("[Entity Name]" "[Affiliation]" "[Field]") to harvest missing details without identity conflation.
 
-### 3. `/scrape_emails` — Automated Outlook Scraper
-- **Trigger**: `/scrape_emails`
-- **Purpose**: Automates headless Chromium via Playwright (`scripts/outlook_scraper/`) to scrape emails from Outlook Web Access (OWA).
-- **Newsletter Blacklist**: Automatically detects and tags automated system emails (`no-reply@*`, `Moodle`, `Students' Union`, `notifications@*`) as `tags: [email-newsletter]` to prevent spam from contaminating the knowledge graph.
-- **Output**: Writes `raw/imports/outlook_emails.json`, subsequently converted to markdown files in `raw/assets/emails/` via `scripts/extract_emails.py`.
+### 3. /scrape_emails — Automated Outlook Scraper
+- **Trigger**: /scrape_emails
+- **Purpose**: Automates headless Chromium via Playwright (scripts/outlook_scraper/) to scrape emails from Outlook Web Access (OWA).
+- **Newsletter Blacklist**: Automatically detects and tags automated system emails (
+o-reply@*, notifications, marketing newsletters) as 	ags: [email-newsletter] to prevent spam from contaminating the graph.
+- **Output**: Writes aw/imports/outlook_emails.json, converted to markdown in aw/assets/emails/ via scripts/extract_emails.py.
 
-### 4. `/ingest` — Adaptive Map-Reduce Ingestion Engine
-- **Trigger**: `/ingest`
-- **Purpose**: Compiles raw markdown files from `raw/assets/` into structured, interlinked wiki pages with taxonomy routing.
+### 4. /ingest — Adaptive Map-Reduce Ingestion Engine
+- **Trigger**: /ingest
+- **Purpose**: Compiles raw markdown files from aw/assets/ into structured, interlinked wiki pages with taxonomy routing.
 - **Adaptive Dispatch Algorithm**:
-  - **Large Files (≥15KB or ≥200 lines)**: Assigned a **1:1 dedicated subagent** for exhaustive deep extraction.
-  - **Small Files (<15KB)**: Bundled up to **10 files per subagent** (max 50KB total payload) for optimal token throughput.
-  - **Concurrency Safeguard**: Capped at **15 parallel subagents** to prevent API rate limits (`429 RESOURCE_EXHAUSTED`).
-- **AST Reducer (`scripts/reduce.py`)**:
-  - Parses YAML frontmatter into a dictionary using `pyyaml`.
-  - Performs set union operations on `tags`, `aliases`, and `sources`.
-  - Strips any incoming secondary frontmatter headers to maintain strict 1-block integrity.
-  - Compares normalized 15+ word paragraphs across sections to prevent duplicate text injection.
+  - **Large Files (≥15KB or ≥200 lines)**: 1:1 dedicated subagent for deep synthesis.
+  - **Small Files (<15KB)**: Bundled up to 10 files per subagent (max 50KB total payload).
+  - **Concurrency Safeguard**: Capped at 15 parallel subagents to prevent API rate limits.
+- **AST Reducer (scripts/reduce.py)**:
+  - Parses YAML frontmatter into a dictionary using pyyaml.
+  - Performs set union operations on 	ags, liases, and sources.
+  - Strips incoming secondary frontmatter headers to maintain strict 1-block integrity.
+  - Compares normalized 15+ word paragraphs across sections to eliminate duplicate text injection.
 
-### 5. `/lint` — Two-Phase Comprehensive Health Check
-- **Trigger**: `/lint`
-- **Phase 1: Deterministic Syntactic Audit**: Executes `scripts/run_linter.py` across 22 structural and advisory checks.
-- **Phase 2: AI Semantic Sweep**: Dispatches subagents to inspect subfolders for semantic duplicates that evade lexical string matching and verifies taxonomy alignment.
-- **Output**: Generates `reports/lint_report.md` and displays overall health status (`🟢 Green`, `🟡 Yellow`, or `🔴 Red`).
+### 5. /lint — Two-Phase Comprehensive Health Check
+- **Trigger**: /lint
+- **Phase 1: Deterministic Syntactic Audit**: Executes scripts/run_linter.py across 22 structural and advisory checks.
+- **Phase 2: AI Semantic Sweep**: Dispatches subagents to inspect subfolders for semantic duplicates that evade lexical string matching.
+- **Output**: Generates eports/lint_report.md with overall health status (🟢 Green, 🟡 Yellow, or 🔴 Red).
 
-### 6. `/query` — Grounded Local Knowledge Retrieval
-- **Trigger**: `/query [question]` or `/query [domain:academic] [tag:bci] [question]`
-- **Purpose**: Answers technical and research inquiries strictly using verified knowledge contained inside `wiki/`. Prohibits hallucination or unverified external assumptions.
+### 6. /query — Grounded Local Knowledge Retrieval
+- **Trigger**: /query [question] or /query [domain:academic] [tag:ml] [question]
+- **Purpose**: Answers technical and research inquiries strictly using verified knowledge contained inside wiki/. Prohibits ungrounded hallucinations.
 
-### 7. `/all` — End-to-End Autonomous Pipeline
-- **Trigger**: `/all`
+### 7. /all — End-to-End Autonomous Pipeline
+- **Trigger**: /all
 - **Purpose**: Executes the complete pipeline in a single automated pass:
-  $$\text{Scrape Emails} \longrightarrow \text{Extract All} \longrightarrow \text{Ingest (Map-Reduce)} \longrightarrow \text{Generate MOCs} \longrightarrow \text{Run Linter}$$
+  \text{Scrape Emails} \longrightarrow \text{Extract All} \longrightarrow \text{Ingest (Map-Reduce)} \longrightarrow \text{Generate MOCs} \longrightarrow \text{Run Linter}
 
 ---
 
 ## 5. The 22-Check Deterministic Linter Catalog
 
-The custom Python linter (`scripts/run_linter.py`) executes 22 rigorous deterministic checks. The wiki must achieve **0 Structural Errors** to be certified as **🟢 Green Status**.
+The custom Python linter (scripts/run_linter.py) executes 22 rigorous deterministic checks. The wiki must achieve **0 Structural Errors** to be certified as **🟢 Green Status**.
 
 | # | Check Name | Classification | Failure Condition & Enforcement Rule |
 | :---: | :--- | :---: | :--- |
-| **1** | **Schema Integrity** | **Structural** | Missing any mandatory field (`type`, `title`, `description`, `tags`, `timestamp`, `sources`) from `schema.yaml`. |
-| **2** | **Type Validation** | **Structural** | Note `type` is not one of the 14 valid types or misses type-specific required fields (e.g., `person` missing `role`/`affiliation`). |
-| **3** | **Domain Placement** | **Structural** | Physical folder path does not match the YAML frontmatter `domain:` attribute. |
+| **1** | **Schema Integrity** | **Structural** | Missing any mandatory field (	ype, 	itle, description, 	ags, 	imestamp, sources) from schema.yaml. |
+| **2** | **Type Validation** | **Structural** | Note 	ype is not one of the valid types or misses type-specific required fields. |
+| **3** | **Domain Placement** | **Structural** | Physical folder path does not match the YAML frontmatter domain: attribute. |
 | **4** | **Staleness Check** | **Advisory** | Note has not been updated in over 90 days. |
-| **5** | **Coverage Gaps** | **Advisory** | Note body has fewer than 50 words or contains non-English Korean characters (violates Rule 01.3). |
-| **6** | **MOC Sync** | **Structural** | Note is not indexed in its folder's local `_moc.md` file. |
+| **5** | **Coverage Gaps** | **Advisory** | Note body has fewer than 50 words or contains non-English characters. |
+| **6** | **MOC Sync** | **Structural** | Note is not indexed in its folder's local _moc.md file. |
 | **7** | **Orphan Check** | **Advisory** | Note has zero incoming wikilinks from other pages or MOCs. |
 | **8** | **Duplicate Filenames** | **Structural** | Two or more files share identical normalized names (stripped of hyphens, underscores, case). |
-| **9** | **Naming Convention** | **Structural** | Filename violates `Underscore_Separated_Title_Case` or contains spaces or illegal characters `()[]{}#%&*|\/:"<>?—.`. |
-| **10** | **Tag→Folder Consistency** | **Structural** | Note tags conflict with designated subfolder mapping rules in `taxonomy.md`. |
-| **11** | **Tag Normalization** | **Structural** | Tag contains uppercase letters, underscores, spaces, or non-alphanumeric characters (must be lowercase hyphen-separated). |
-| **12** | **Taxonomy Alignment** | **Advisory** | Note contains tags not registered in `taxonomy.md`. |
-| **13** | **_uncategorized Overflow** | **Advisory** | An `_uncategorized/` folder accumulates 3 or more files sharing the same tag (triggers auto-folder creation). |
-| **14** | **Semantic Title/Alias Dups** | **Structural** | Two distinct files declare identical titles or overlapping YAML `aliases`. |
-| **15** | **Merge Debris** | **Advisory** | Note body contains uncleaned merge markers (e.g., `## Merged Content`, `## Additional Sources`). |
-| **16** | **Junk / Phantom Files** | **Structural** | Temporary scraper or editor debris exists (e.g., `item1.md`, `Untitled.md`, `Empty_Document_*.md`). |
-| **17** | **Cross-link Poverty** | **Advisory** | Note contains zero outgoing `[[wikilinks]]` to other concepts in the vault. |
+| **9** | **Naming Convention** | **Structural** | Filename violates Underscore_Separated_Title_Case or contains spaces or illegal characters ()[]{}#%&*|\/:"<>?—.. |
+| **10** | **Tag→Folder Consistency** | **Structural** | Note tags conflict with designated subfolder mapping rules in 	axonomy.md. |
+| **11** | **Tag Normalization** | **Structural** | Tag contains uppercase letters, underscores, spaces, or illegal characters (must be lowercase hyphen-separated). |
+| **12** | **Taxonomy Alignment** | **Advisory** | Note contains tags not registered in 	axonomy.md. |
+| **13** | **_uncategorized Overflow** | **Advisory** | An _uncategorized/ folder accumulates 3 or more files sharing the same tag (triggers auto-folder creation). |
+| **14** | **Semantic Title/Alias Dups** | **Structural** | Two distinct files declare identical titles or overlapping YAML liases. |
+| **15** | **Merge Debris** | **Advisory** | Note body contains uncleaned merge markers (e.g., ## Merged Content, ## Additional Sources). |
+| **16** | **Junk / Phantom Files** | **Structural** | Temporary scraper or editor debris exists (e.g., item1.md, Untitled.md, Empty_Document_*.md). |
+| **17** | **Cross-link Poverty** | **Advisory** | Note contains zero outgoing [[wikilinks]] to other concepts in the vault. |
 | **18** | **Content Similarity (TF-IDF)** | **Advisory** | Two notes exhibit \(\ge 88\%\) cosine similarity based on word-frequency vectorization. |
-| **19** | **Broken Outgoing Links** | **Structural** | Wikilinks target non-existent files/aliases or include `.md` extensions (root cause of Obsidian ghost nodes). |
-| **20** | **Multi-YAML Frontmatter** | **Structural** | Note contains more than one YAML header block (`---...---`) embedded within the markdown body. |
+| **19** | **Broken Outgoing Links** | **Structural** | Wikilinks target non-existent files/aliases or include .md extensions (root cause of Obsidian ghost nodes). |
+| **20** | **Multi-YAML Frontmatter** | **Structural** | Note contains more than one YAML header block (---...---) embedded within the markdown body. |
 | **21** | **Repetitive Paragraphs** | **Advisory** | Identical normalized paragraphs of \(\ge 15\) words occur multiple times within the same file. |
-| **22** | **Canonical Root Domains** | **Structural** | Root directory under `wiki/` does not belong to the 8 canonical domains or contains spaces. |
+| **22** | **Canonical Root Domains** | **Structural** | Root directory under wiki/ does not belong to the 8 canonical domains or contains spaces. |
 
 ---
 
 ## 6. Obsidian Graph View & UI Configuration
 
-To maintain visual clarity across large-scale knowledge graphs, Obsidian workspace configurations are tuned to eliminate unreferenced clutter and distinguish entity types by color.
-
-### Exclusion Filters (`.obsidian/app.json`)
+### Exclusion Filters (.obsidian/app.json)
 The following patterns are excluded from Obsidian's quick switcher, search index, and graph visualization:
-```json
+`json
 {
   "userIgnoreFilters": [
     "raw/*",
@@ -230,39 +243,27 @@ The following patterns are excluded from Obsidian's quick switcher, search index
     ".agents/*"
   ]
 }
-```
+`
 
-### Graph Physics & Color Palette (`.obsidian/graph.json`)
-- **Ghost Node Suppression**: `"hideUnresolved": true` is enforced so that links without matching files do not render as hollow grey nodes.
-- **Force-Directed Physics Settings**:
-  - `centerStrength: 0.3`
-  - `repelStrength: 15.0`
-  - `linkStrength: 1.0`
-  - `linkDistance: 250`
-- **Node Type Color Palette**:
-
-```
-┌────────────────────────────────────────────────────────┐
-│  COLOR PALETTE MAPPING BY SCHEMA TYPE                  │
-│                                                        │
-│  • Concept       #60A5FA (Blue)                        │
-│  • Person        #F472B6 (Pink)                        │
-│  • Project       #34D399 (Emerald Green)               │
-│  • Tool          #FBBF24 (Amber Yellow)                │
-│  • Academic      #A78BFA (Purple)                      │
-│  • Business      #FB923C (Orange)                      │
-│  • Overview      #F87171 (Coral Red)                   │
-│  • MOC           #9CA3AF (Slate Grey)                  │
-└────────────────────────────────────────────────────────┘
-```
+### Graph Physics & Color Palette (.obsidian/graph.json)
+- **Ghost Node Suppression**: "hideUnresolved": true is enforced so that uncreated links do not render as hollow grey nodes.
+- **Color Mapping by Schema Type**:
+  - concept: #60A5FA (Blue)
+  - person: #F472B6 (Pink)
+  - project: #34D399 (Emerald Green)
+  - 	ool: #FBBF24 (Amber Yellow)
+  - cademic: #A78BFA (Purple)
+  - usiness: #FB923C (Orange)
+  - overview: #F87171 (Coral Red)
+  - moc: #9CA3AF (Slate Grey)
 
 ---
 
 ## 7. Directory Tree & System Structure
 
-```
-LLM_Wiki_Project/
-├── .agents/                                # AI Agent Instructions & System Prompts
+`
+Personalized-LLM-Knowledge-Graph/
+├── .agents/                                # Agent Directives & Modular Prompts
 │   ├── AGENTS.md                           # Central Agent Customizations Index & Router
 │   ├── rules/                              # Modular Behavioral Directives
 │   │   ├── 01_architecture.md              # 8 Domains, Schema & English-Only Rules
@@ -278,89 +279,116 @@ LLM_Wiki_Project/
 │       ├── query/SKILL.md                  # Grounded wiki question-answering
 │       └── scrape_emails/SKILL.md          # Playwright Outlook email scraper
 │
-├── raw/                                    # Raw Source Data Layer (Immutable)
-│   ├── assets/                             # Ingestion Queue (Extracted markdown)
-│   ├── imports/                            # Scraped JSON & Incremental Diff Logs
-│   │   ├── .extract_all_log.json           # Tracked Antigravity conversation IDs
-│   │   ├── .drive_scan_log.json            # Tracked Google Drive document hashes
-│   │   └── .extract_emails_log.json        # Tracked scraped email message IDs
-│   └── processed/                          # Permanent Archive of Completed Raw Files
+├── CLAUDE.md                               # Universal adapter for Claude Code
+├── .cursorrules                            # Universal adapter for Cursor / Windsurf
+├── .env.example                            # Configuration template for platforms & keys
 │
-├── wiki/                                   # The Official Knowledge Graph
-│   ├── _moc.md                             # Master Vault Map of Content
-│   ├── index.md                            # Domain Catalog & Entry Point
-│   ├── overview.md                         # Multi-Pillar Executive Synthesis
-│   ├── log.md                              # Historical Maintenance & Operation Log
-│   ├── academic/                           # Neuroscience, BCI, Psychometrics, UCL/OU
-│   ├── business/                           # Management, Organizational Psychology
-│   ├── career/                             # Target Lab Dossiers, Resume, Interview Prep
-│   ├── dev/                                # Multi-agent AI Systems, Playwright, Pipelines
-│   ├── people/                             # Researchers, Collaborators, Professors
-│   ├── personal/                           # Technical Study Notes & Exam Guides
-│   ├── projects/                           # Active Research Initiatives (BSMA, EEG BCI)
-│   └── tools/                              # Hardware (Wearable AI) & Software Platforms
-│
-├── scripts/                                # Automation Engines & Deterministic Scripts
-│   ├── run_linter.py                       # 22-Check Deterministic Wiki Linter
-│   ├── generate_mocs.py                    # Batch Map of Content (MOC) Generator
-│   ├── reduce.py                           # AST YAML & Paragraph-Dedup Merge Reducer
-│   ├── extract_emails.py                   # JSON to Markdown Email Converter
-│   ├── extract_all_chats.py                # Historical Antigravity Chat Harvester
-│   └── outlook_scraper/                    # Headless Playwright Browser Scraper
-│
-├── reports/                                # Linter Reports & Health Audits
-│   └── lint_report.md                      # Detailed Report Generated by run_linter.py
-│
-├── schema.yaml                             # Strict SSOT YAML Schema Specification
-├── taxonomy.md                             # Controlled Tag Vocabulary & Routing Map
-└── README.md                               # Production Technical Specification
-```
+├── LLM_Wiki_Project/
+│   ├── raw/                                # Raw Source Data Layer (Immutable)
+│   │   ├── assets/                         # Ingestion Queue (Extracted markdown)
+│   │   ├── imports/                        # Scraped JSON & Incremental Diff Logs
+│   │   └── processed/                      # Permanent Archive of Completed Raw Files
+│   │
+│   ├── wiki/                               # The Official Knowledge Graph
+│   │   ├── _moc.md                         # Master Vault Map of Content
+│   │   ├── index.md                        # Domain Catalog & Entry Point
+│   │   ├── overview.md                     # High-level synthesis
+│   │   ├── log.md                          # Operation Log
+│   │   ├── academic/                       # Research, Science, Lectures
+│   │   ├── business/                       # Strategy, Management, Market Analysis
+│   │   ├── career/                         # Resumes, Target Companies, Interview Prep
+│   │   ├── dev/                            # Software Engineering, AI, Data Pipelines
+│   │   ├── people/                         # Collaborators, Mentors, Authors
+│   │   ├── personal/                       # Personal Reflections, Goals, Study Notes
+│   │   ├── projects/                       # Active Initiatives & Research Projects
+│   │   └── tools/                          # Software & Hardware Tools
+│   │
+│   ├── scripts/                            # Automation Engines & Deterministic Scripts
+│   │   ├── run_linter.py                   # 22-Check Deterministic Wiki Linter
+│   │   ├── generate_mocs.py                # Batch Map of Content (MOC) Generator
+│   │   ├── reduce.py                       # AST YAML & Paragraph-Dedup Merge Reducer
+│   │   ├── extract_emails.py               # JSON to Markdown Email Converter
+│   │   ├── extract_all_chats.py            # Multi-Platform Chat Harvester
+│   │   └── outlook_scraper/                # Headless Playwright Browser Scraper
+│   │
+│   ├── reports/                            # Linter Reports & Health Audits
+│   │   └── lint_report.md                  # Detailed Report Generated by run_linter.py
+│   │
+│   ├── schema.yaml                         # Strict SSOT YAML Schema Specification
+│   ├── taxonomy.md                         # Controlled Tag Vocabulary & Routing Map
+│   └── templates/                          # Reusable Markdown Note Templates
+└── README.md                               # Project Documentation
+`
 
 ---
 
 ## 8. CLI Execution Guide & Maintenance Workflows
 
-All maintenance commands can be executed directly from PowerShell or Bash within the project directory.
+All maintenance commands can be executed directly from PowerShell or Bash:
 
 ### 1. Run Complete Quality Assurance (22 Checks)
-```powershell
-# Run the deterministic linter
+`ash
 python LLM_Wiki_Project/scripts/run_linter.py
-```
-*Outputs detailed diagnostic breakdown to `reports/lint_report.md` and displays health status in terminal.*
+`
+*Outputs detailed diagnostic breakdown to eports/lint_report.md and displays health status in terminal.*
 
 ### 2. Batch Regenerate All Maps of Content (MOCs)
-```powershell
-# Rebuild all 24 local and root _moc.md files
+`ash
 python LLM_Wiki_Project/scripts/generate_mocs.py
-```
+`
 
-### 3. Run Email Ingestion Pipeline
-```powershell
-# Step 1: Scrape new emails (requires Outlook session cookies)
-node LLM_Wiki_Project/scripts/outlook_scraper/scrape.js
-
-# Step 2: Convert scraped JSON into individual markdown files in raw/assets/emails/
-python LLM_Wiki_Project/scripts/extract_emails.py
-```
+### 3. Harvest Agent Conversations & Exported Chats
+`ash
+python LLM_Wiki_Project/scripts/extract_all_chats.py
+`
 
 ### 4. Git Synchronization Protocol
-```powershell
-# Check staged changes
+`ash
 git status -s
-
-# Commit modifications with semantic versioning tags
 git add -A
-git commit -m "feat(wiki): ingest new research notes and synchronize MOCs"
-
-# Push to primary remote repository
-git push origin main
-```
+git commit -m "feat(wiki): ingest new notes and synchronize MOCs"
+git push origin develop
+`
 
 ---
 
-## 9. License & Attribution
-- **Author**: Kyubin Yun (Department of Psychology and Language Sciences, University College London)
-- **Engine**: Google Antigravity Advanced Agentic Coding Swarm
-- **Repository**: [https://github.com/canadaofbin-netizen/LLM-WIKI---personalized](https://github.com/canadaofbin-netizen/LLM-WIKI---personalized)
-- **License**: MIT License. All rights reserved.
+## 9. Quick Start & Customization Guide
+
+1. **Clone the Repository**:
+   `ash
+   git clone https://github.com/canadaofbin-netizen/Personalized-LLM-Knowledge-Graph.git
+   cd Personalized-LLM-Knowledge-Graph
+   `
+
+2. **Set Up Python Dependencies**:
+   `ash
+   pip install pyyaml playwright
+   playwright install chromium
+   `
+
+3. **Configure Environment (.env)**:
+   `ash
+   cp .env.example .env
+   # Edit .env to specify your AGENT_PLATFORM (antigravity, claude_code, etc.)
+   `
+
+4. **Open in Obsidian**:
+   - Open Obsidian > "Open folder as vault" > Select the repository root.
+   - Graph View colors and ignore filters in .obsidian/ are automatically loaded.
+
+5. **Start Adding Knowledge**:
+   - Drop documents into LLM_Wiki_Project/raw/assets/ and tell your AI assistant:
+     `
+     /ingest
+     `
+   - Verify vault health at any time:
+     `
+     /lint
+     `
+
+---
+
+## 10. License & Attribution
+- **Engine**: Google Antigravity & Multi-Platform LLM Agents
+- **Repository**: [https://github.com/canadaofbin-netizen/Personalized-LLM-Knowledge-Graph](https://github.com/canadaofbin-netizen/Personalized-LLM-Knowledge-Graph)
+- **License**: MIT License. Open source for personal and research use.

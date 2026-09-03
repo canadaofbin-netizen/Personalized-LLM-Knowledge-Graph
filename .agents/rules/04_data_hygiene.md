@@ -26,7 +26,7 @@ Ignore `_moc.md`. Flag duplicates in `wiki/log.md`.
 6. **Single Frontmatter & Deduplicated Merging:** Every markdown note MUST contain exactly ONE YAML frontmatter block at lines 1–N. Never inject secondary YAML headers into the markdown body during merges. When merging new information, always strip incoming frontmatters, deduplicate repetitive paragraphs, and merge list fields (`tags`, `aliases`, `sources`) as set unions.
 
 **References:**
-- [<- Back to AGENTS.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/AGENTS.md)
-- [01_architecture.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/01_architecture.md)
-- [03_routing.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/03_routing.md)
+- [<- Back to AGENTS.md](file:///.agents/AGENTS.md)
+- [01_architecture.md](file:///.agents/rules/01_architecture.md)
+- [03_routing.md](file:///.agents/rules/03_routing.md)
 

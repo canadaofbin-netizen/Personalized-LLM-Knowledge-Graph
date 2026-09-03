@@ -11,7 +11,7 @@ description: Triggers when the user uses `/lint`. Runs a comprehensive Two-Phase
 Run `python "LLM_Wiki_Project/scripts/run_linter.py"`. Read the generated `LLM_Wiki_Project/reports/lint_report.md`.
 
 ### Structural Checks (13 Total — Must be 0 for 🟢 Green Status)
-1. **Schema Integrity**: Validates presence of all mandatory frontmatter fields defined in [schema.yaml](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/schema.yaml).
+1. **Schema Integrity**: Validates presence of all mandatory frontmatter fields defined in [schema.yaml](file:///LLM_Wiki_Project/schema.yaml).
 2. **Type Validation**: Verifies that the note `type` belongs exclusively to canonical schema types.
 3. **Domain Placement**: Verifies that directory location matches the YAML `domain` field.
 4. **MOC Sync (Check 6)**: Verifies that every markdown page is linked in its local `_moc.md`.
@@ -29,7 +29,7 @@ Run `python "LLM_Wiki_Project/scripts/run_linter.py"`. Read the generated `LLM_W
 1. **Staleness (Check 4)**: Flags notes with no updates in >90 days.
 2. **Coverage Gaps (Check 5)**: Identifies shallow notes (<50 words) and non-English text violating Rule 01.3.
 3. **Orphan Check (Check 7)**: Identifies notes with zero incoming internal links.
-4. **Taxonomy Alignment (Check 12)**: Identifies tags not registered in [taxonomy.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/taxonomy.md).
+4. **Taxonomy Alignment (Check 12)**: Identifies tags not registered in [taxonomy.md](file:///LLM_Wiki_Project/taxonomy.md).
 5. **_uncategorized Overflow (Check 13)**: Alerts when an `_uncategorized/` folder accumulates 3+ files sharing a common tag.
 6. **Merge Debris (Check 15)**: Detects uncleaned merge headers (e.g., `## Merged from`, `## Additional Sources`).
 7. **Cross-link Poverty (Check 17)**: Flags isolated notes lacking outgoing wikilinks.
@@ -39,7 +39,7 @@ Run `python "LLM_Wiki_Project/scripts/run_linter.py"`. Read the generated `LLM_W
 ## Phase 2: AI Semantic Sweep (Map-Reduce)
 Spawn a `pro` subagent per subfolder with markdown files. **Concurrency Limit**: Batch subagent invocations to a maximum of 15 at a time to prevent `429 RESOURCE_EXHAUSTED` errors.
 - **Role**: Domain Semantic Auditor
-- **Prompt**: "Read all `.md` files in `{subfolder}`. Find hidden semantic duplicates that evade Python string-matching. Verify if tags match [taxonomy.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/taxonomy.md). Return: [Duplicate Pair] - [Reason] - [Recommendation]."
+- **Prompt**: "Read all `.md` files in `{subfolder}`. Find hidden semantic duplicates that evade Python string-matching. Verify if tags match [taxonomy.md](file:///LLM_Wiki_Project/taxonomy.md). Return: [Duplicate Pair] - [Reason] - [Recommendation]."
 Collect all subagent results.
 
 ## Output Artifact
@@ -50,5 +50,5 @@ Create `lint_audit.md` artifact containing:
 - **Next Steps**: Numbered repair list. Ask for user permission.
 
 ## Hard Rules
-- Never delete files unilaterally. See [02_operations.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/02_operations.md).
-- Follow architectural rules in [01_architecture.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/01_architecture.md).
+- Never delete files unilaterally. See [02_operations.md](file:///.agents/rules/02_operations.md).
+- Follow architectural rules in [01_architecture.md](file:///.agents/rules/01_architecture.md).

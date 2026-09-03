@@ -1,11 +1,11 @@
----
+﻿---
 type: moc
 title: Uncategorized
 description: "Temporary holding area for notes pending categorization"
 tags: []
 timestamp: ""
 sources: []
-domain: "languages"
+domain: "career"
 ---
 
 # Uncategorized

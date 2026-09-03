@@ -50,7 +50,7 @@ title: "{title}"
 description: "Extracted Outlook Email"
 tags: [email-contact]
 timestamp: "{datetime.datetime.now().strftime("%Y-%m-%d")}"
-sources: ["[[outlook_emails.json]]"]
+sources: ["outlook_emails.json"]
 sender: "{sender}"
 date: "{date}"
 folder: "{folder}"

@@ -1,4 +1,4 @@
-﻿# Python
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -24,4 +24,32 @@ Thumbs.db
 *.log
 .env
 .env.*
+!.env.example
+*.log.json
+*.jsonl
+
+# Scraper authentication & state
+**/auth.json
+**/sync_state.json
+**/outlook_emails.json
+
+# Platform & IDE caches
+.claude/
+.cursor/
+
+# Raw data assets & archives (keep directory structure via .gitkeep)
+LLM_Wiki_Project/raw/assets/*
+!LLM_Wiki_Project/raw/assets/.gitkeep
+!LLM_Wiki_Project/raw/assets/emails/
+LLM_Wiki_Project/raw/assets/emails/*
+!LLM_Wiki_Project/raw/assets/emails/.gitkeep
+LLM_Wiki_Project/raw/imports/*
+!LLM_Wiki_Project/raw/imports/.gitkeep
+LLM_Wiki_Project/raw/processed/*
+!LLM_Wiki_Project/raw/processed/.gitkeep
+
+# Diagnostic reports
+LLM_Wiki_Project/reports/*.md
+!LLM_Wiki_Project/reports/.gitkeep
+
 

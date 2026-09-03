@@ -33,9 +33,8 @@ Tags MUST be lowercase, hyphen-separated. No uppercase, no slashes, no domain pr
 - (Use software category tags as needed, e.g., ide, database, design)
 - ide, database, browser
 
-## languages
-- (Use specific language tags as needed, e.g., english, python)
-- english, korean, python, javascript
+## career
+- resume, interview, target-companies, portfolio, career-planning
 
 ## personal
 - goals, reflections, administration
@@ -49,10 +48,10 @@ Tags MUST be lowercase, hyphen-separated. No uppercase, no slashes, no domain pr
 (Used as fallback tags to satisfy linter Check 12 if a file only has highly specific tags but no recognized domain/subdomain tag)
 - academic
 - business
+- career
 - dev
 - projects
 - people
 - tools
-- languages
 - personal
 - wiki

@@ -11,17 +11,17 @@ aliases: []
 ---
 # LLM Wiki Index
 
-Welcome to the LLM Wiki. This Knowledge Base is maintained by Antigravity Agents.
+Welcome to the LLM Wiki. This Knowledge Base is maintained by AI Agents.
 
 ## Domains
 
 - [[academic/_moc|Academic]] - Research, papers, lectures, theories.
 - [[business/_moc|Business]] - Strategy, marketing, finance, management, companies.
+- [[career/_moc|Career]] - Career planning, resumes, interviews, target profiles.
 - [[dev/_moc|Dev]] - Programming, frameworks, architecture, MLOps.
 - [[projects/_moc|Projects]] - Projects, internships, coursework.
 - [[people/_moc|People]] - People profiles.
 - [[tools/_moc|Tools]] - Software, instruments.
-- [[languages/_moc|Languages]] - Language learning.
 - [[personal/_moc|Personal]] - Personal notes, goals, reflections.
 - [[overview|Overview]] - High-level synthesis.
 

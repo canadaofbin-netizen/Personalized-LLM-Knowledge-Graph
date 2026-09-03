@@ -17,7 +17,7 @@ If the file's `type` field has a canonical domain mapping, route there **before*
 For ambiguous types (`concept`, `entity`, `summary`, `overview`, `reading_note`, `collection`, `lecture_note`), proceed to tag-based evaluation below.
 
 ## Tag-Based Routing (Steps 1–4)
-Evaluate sequentially for new files against [taxonomy.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/taxonomy.md):
+Evaluate sequentially for new files against [taxonomy.md](file:///LLM_Wiki_Project/taxonomy.md):
 1. **Exact Match**: Tag matches a Tag→Folder entry in `taxonomy.md` → Route to folder.
 2. **Parent Match**: Tag's parent in `taxonomy.md` maps to existing subfolder → Route.
 3. **Shared Parents**: Tag shares 2+ parent tags with existing subfolder → Route.
@@ -30,5 +30,5 @@ Evaluate sequentially for new files against [taxonomy.md](file:///g:/My%20Drive/
    - *Else*: Keep in `_uncategorized/` and log.
 
 **References:**
-- [<- Back to AGENTS.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/AGENTS.md)
-- [01_architecture.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/.agents/rules/01_architecture.md)
+- [<- Back to AGENTS.md](file:///.agents/AGENTS.md)
+- [01_architecture.md](file:///.agents/rules/01_architecture.md)

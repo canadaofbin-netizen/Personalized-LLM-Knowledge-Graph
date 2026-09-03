@@ -8,9 +8,9 @@ description: End-to-end Proactive Knowledge Hunter. Harvests all past conversati
 This skill orchestrates a massive extraction and proactive research pipeline to gather maximum knowledge before handing off to `/ingest`.
 
 ## Stage 1: Pan-Conversation Harvester
-Extracts knowledge from ALL historical Antigravity conversations.
+Extracts knowledge from ALL historical agent conversations.
 **Command**: `python "LLM_Wiki_Project/scripts/extract_all_chats.py"`
-- **Behavior**: Scans `C:/Users/yunky/.gemini/antigravity/brain/*/` for `transcript.jsonl` files.
+- **Behavior**: Scans `~/.gemini/antigravity/brain/*/` (or path configured in `AGENT_TRANSCRIPT_DIR`) for `transcript.jsonl` files.
 - **Filtering**: Captures `USER_INPUT` and `PLANNER_RESPONSE` (skips raw tool outputs to save tokens).
 - **Incremental**: Uses `LLM_Wiki_Project/raw/imports/.extract_all_log.json` to skip previously processed transcripts.
 - **Output**: Dumps chunked markdown files (e.g., `archive_chat_chunk_X.md`) into `raw/assets/`.
@@ -29,7 +29,7 @@ After harvesting local chats, the agent proactively hunts for missing informatio
 1. **Identify Gaps**: Read `LLM_Wiki_Project/reports/lint_report.md` (specifically the "Coverage Gaps" section).
 2. **Spawn Hunters**: For each entity < 50 words (e.g., a Company or Person), spawn a `pro` subagent. **Concurrency Limit**: Batch subagent invocations to a maximum of 15 concurrently.
    - **Role**: Proactive Research Hunter
-   - **Prompt**: "Research [Entity Name] using the `search_web` tool. Always ground search queries with institutional context (e.g. '[Entity Name] [Institution/Lab/Company]') to prevent conflating distinct entities. Verify their institutional affiliation before synthesizing. Never create person profiles for automated newsletters (no-reply, Moodle, Students' Union). Format source citations as plain strings, never `[[wikilinks]]`. Synthesize into a markdown file and save it to `g:/My Drive/Kyubin_Yun_Workspace/06_Obsidian_System/01_Obsidian_Vault/03_General/LLM_Wiki_Project/raw/assets/web_extract_[Entity].md`."
+   - **Prompt**: "Research [Entity Name] using the `search_web` tool. Always ground search queries with institutional context (e.g. '[Entity Name] [Institution/Lab/Company]') to prevent conflating distinct entities. Verify their institutional affiliation before synthesizing. Never create person profiles for automated newsletters (no-reply, notifications, announcements). Format source citations as plain strings, never `[[wikilinks]]`. Synthesize into a markdown file and save it to `LLM_Wiki_Project/raw/assets/web_extract_[Entity].md`."
 
 ## Stage 3: Auto-Ingest Handoff
 Once Stage 1 and Stage 2 are complete and all new knowledge files are in `raw/assets/`:
