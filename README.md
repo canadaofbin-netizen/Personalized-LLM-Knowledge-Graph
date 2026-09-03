@@ -1,20 +1,6 @@
-# Personalized LLM Knowledge Graph & Second Brain System
+﻿# Personalized LLM Knowledge Graph & Second Brain System
 
-A fully autonomous, self-healing Personal Knowledge Base and Knowledge Graph engineered for research, software development, career strategy, and personal knowledge management. Powered by **AI Agents**, **Deterministic Python AST Processing Engines**, and **Obsidian Graph View**.
-
----
-
-> [!NOTE]
-> ### 🌐 Multi-Platform Compatibility & Adaptation Notice
-> This repository was originally developed and optimized within the **Google Antigravity** environment (`.agents/` architecture).
-> If you are using **Claude (Claude Code, Claude Projects)**, **Codex / Cursor**, or other AI coding environments, this repository includes universal bridge adapters:
->
-> 1. **Claude Code**: Works out of the box via [`CLAUDE.md`](CLAUDE.md) in the project root.
-> 2. **Cursor / Windsurf**: Automatic rule enforcement via [`.cursorrules`](.cursorrules).
-> 3. **Chat Data Extraction (`scripts/extract_all_chats.py`)**:
->    - Configure your local agent session folder in `.env` (`AGENT_TRANSCRIPT_DIR=...`).
->    - Or drop your exported `conversations.json` (from Claude.ai or ChatGPT data exports) directly into `LLM_Wiki_Project/raw/imports/` for automated batch conversion into markdown.
-> 4. **Single-Agent Fallback**: In environments without subagent swarm capabilities (`invoke_subagent`), all ingestion and linter tasks can be run deterministically via the CLI scripts under `LLM_Wiki_Project/scripts/`.
+A fully autonomous, self-healing Personal Knowledge Base and Knowledge Graph engineered for research, software development, career strategy, and personal knowledge management. Powered by **Google Antigravity Agents**, **Deterministic Python AST Processing Engines**, and **Obsidian Graph View**.
 
 ---
 
@@ -56,7 +42,7 @@ The **Personalized LLM Knowledge Graph** is a production-grade personal knowledg
 3. **Ghost Node Eradication (Rule 04.5)**:
    - Obsidian's Graph View generates unresolved grey "ghost" nodes whenever target files do not exist or when raw source filenames are enclosed in wikilinks. Raw assets (e.g., `email_*.md`, `chat_extract_*.md`) must **never** be linked via `[[...]]`. They are cited as plain text strings in frontmatter `sources:` lists and body `## Sources` sections.
 4. **Dual-Layer Hygiene & Prevention Architecture**:
-   - **Layer A (AI Prompt Rules)**: Strict behavioral directives in `.agents/rules/`, `CLAUDE.md`, and `.cursorrules` that enforce single frontmatter blocks, entity grounding anchors, and plaintext citations at generation time.
+   - **Layer A (AI Prompt Rules)**: Strict behavioral directives in `.agents/rules/` that enforce single frontmatter blocks, entity grounding anchors, and plaintext citations at generation time.
    - **Layer B (Deterministic AST Python Engine)**: `scripts/reduce.py` and `scripts/run_linter.py` parse YAML abstract syntax trees, merge set-union properties, and hash paragraphs to eliminate duplicates before committing.
 
 ---
@@ -87,7 +73,7 @@ The knowledge base is organized into exactly eight canonical root directories un
 ```mermaid
 flowchart TD
     subgraph S1 [Sources Layer]
-        C1[Agent Chat Logs]
+        C1[Antigravity Chat Logs]
         C2[Google Drive Docs / Sheets]
         C3[Outlook OWA Webmail]
         C4[Web Research History]
@@ -157,9 +143,9 @@ All operations are modularized as standard agent skills in `.agents/skills/`:
 
 ### 2. `/extract_all` — Proactive Knowledge Hunter
 - **Trigger**: `/extract_all`
-- **Purpose**: Mass-harvests historical conversations across AI sessions and fills knowledge coverage gaps in the wiki.
+- **Purpose**: Mass-harvests historical conversations across Antigravity sessions and fills knowledge coverage gaps in the wiki.
 - **Workflow**:
-  1. Scans transcript logs from configured agent directory (or exported `conversations.json`).
+  1. Scans transcript logs from local Antigravity session directory (`~/.gemini/antigravity/brain/*/transcript.jsonl`).
   2. Compares conversation IDs against `.extract_all_log.json` to process only new sessions.
   3. Inspects `reports/lint_report.md` for entities flagged as "Too short (<50 words)".
   4. Dispatches web research subagents with the **Entity Grounding Anchor Protocol** (`"[Entity Name]" "[Affiliation]" "[Field]"`) to harvest missing details without identity conflation.
@@ -265,7 +251,7 @@ The following patterns are excluded from Obsidian's quick switcher, search index
 
 ```
 Personalized-LLM-Knowledge-Graph/
-├── .agents/                                # Agent Directives & Modular Prompts
+├── .agents/                                # Antigravity Agent Directives & Modular Prompts
 │   ├── AGENTS.md                           # Central Agent Customizations Index & Router
 │   ├── rules/                              # Modular Behavioral Directives
 │   │   ├── 01_architecture.md              # 8 Domains, Schema & English-Only Rules
@@ -281,9 +267,7 @@ Personalized-LLM-Knowledge-Graph/
 │       ├── query/SKILL.md                  # Grounded wiki question-answering
 │       └── scrape_emails/SKILL.md          # Playwright Outlook email scraper
 │
-├── CLAUDE.md                               # Universal adapter for Claude Code
-├── .cursorrules                            # Universal adapter for Cursor / Windsurf
-├── .env.example                            # Configuration template for platforms & keys
+├── .env.example                            # Configuration template for paths & API keys
 │
 ├── LLM_Wiki_Project/
 │   ├── raw/                                # Raw Source Data Layer (Immutable)
@@ -310,7 +294,7 @@ Personalized-LLM-Knowledge-Graph/
 │   │   ├── generate_mocs.py                # Batch Map of Content (MOC) Generator
 │   │   ├── reduce.py                       # AST YAML & Paragraph-Dedup Merge Reducer
 │   │   ├── extract_emails.py               # JSON to Markdown Email Converter
-│   │   ├── extract_all_chats.py            # Multi-Platform Chat Harvester
+│   │   ├── extract_all_chats.py            # Local Chat Transcript Harvester
 │   │   └── outlook_scraper/                # Headless Playwright Browser Scraper
 │   │
 │   ├── reports/                            # Linter Reports & Health Audits
@@ -339,7 +323,7 @@ python LLM_Wiki_Project/scripts/run_linter.py
 python LLM_Wiki_Project/scripts/generate_mocs.py
 ```
 
-### 3. Harvest Agent Conversations & Exported Chats
+### 3. Harvest Agent Conversations
 ```bash
 python LLM_Wiki_Project/scripts/extract_all_chats.py
 ```
@@ -371,7 +355,7 @@ git push origin develop
 3. **Configure Environment (`.env`)**:
    ```bash
    cp .env.example .env
-   # Edit .env to specify your AGENT_PLATFORM (antigravity, claude_code, etc.)
+   # Edit .env if your Antigravity brain directory is at a non-default location
    ```
 
 4. **Open in Obsidian**:
@@ -379,7 +363,7 @@ git push origin develop
    - Graph View colors and ignore filters in `.obsidian/` are automatically loaded.
 
 5. **Start Adding Knowledge**:
-   - Drop documents into `LLM_Wiki_Project/raw/assets/` and tell your AI assistant:
+   - Drop documents into `LLM_Wiki_Project/raw/assets/` and tell Antigravity:
      ```
      /ingest
      ```
@@ -391,6 +375,6 @@ git push origin develop
 ---
 
 ## 10. License & Attribution
-- **Engine**: Google Antigravity & Multi-Platform LLM Agents
+- **Engine**: Google Antigravity Agents
 - **Repository**: [https://github.com/canadaofbin-netizen/Personalized-LLM-Knowledge-Graph](https://github.com/canadaofbin-netizen/Personalized-LLM-Knowledge-Graph)
 - **License**: MIT License. Open source for personal and research use.

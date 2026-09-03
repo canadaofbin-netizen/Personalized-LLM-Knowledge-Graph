@@ -4,21 +4,14 @@ import json
 from datetime import datetime
 
 # ==============================================================================
-# Multi-Platform Chat History Harvester
-# Supports:
-# 1. Google Antigravity local sessions (~/.gemini/antigravity/brain)
-# 2. Claude Code session transcripts (~/.claude)
-# 3. Exported chat archives (raw/imports/conversations.json from Claude.ai or ChatGPT)
-# 4. Custom directory configured via AGENT_TRANSCRIPT_DIR environment variable
+# Antigravity Chat History Harvester
+# Scans local Antigravity session transcripts (~/.gemini/antigravity/brain)
+# or custom path configured via AGENT_TRANSCRIPT_DIR.
 # ==============================================================================
 
-AGENT_PLATFORM = os.environ.get("AGENT_PLATFORM", "antigravity").lower()
 CUSTOM_TRANSCRIPT_DIR = os.environ.get("AGENT_TRANSCRIPT_DIR", "").strip()
-
 if CUSTOM_TRANSCRIPT_DIR:
     brain_dir = os.path.expanduser(CUSTOM_TRANSCRIPT_DIR)
-elif AGENT_PLATFORM == "claude_code":
-    brain_dir = os.path.expanduser("~/.claude/logs")
 else:
     brain_dir = os.path.expanduser("~/.gemini/antigravity/brain")
 
@@ -43,91 +36,12 @@ def save_log(log_data):
     with open(log_file, 'w', encoding='utf-8') as f:
         json.dump(log_data, f, indent=2)
 
-def extract_from_conversations_json(log_data):
-    """Parses conversations.json (Claude.ai or ChatGPT data exports) if dropped in raw/imports/."""
-    export_path = os.path.join(imports_dir, "conversations.json")
-    if not os.path.exists(export_path):
-        return 0, 0
-
-    processed_ids = set(log_data.get('processed_conversations', []))
-    new_convs = 0
-    total_chunks = 0
-
-    try:
-        with open(export_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-    except Exception as e:
-        print(f"[Export Parser] Error loading {export_path}: {e}")
-        return 0, 0
-
-    # Handles list of conversation objects (ChatGPT & Claude format)
-    conversations = data if isinstance(data, list) else data.get("conversations", [])
-    for idx, conv in enumerate(conversations):
-        cid = str(conv.get("id", conv.get("uuid", f"export_{idx}")))
-        if cid in processed_ids:
-            continue
-
-        title = conv.get("title", f"Exported Chat {cid[:8]}")
-        content = ""
-
-        # Format 1: ChatGPT mapping tree
-        mapping = conv.get("mapping", {})
-        if mapping:
-            for node_id, node in mapping.items():
-                msg = node.get("message")
-                if msg and msg.get("content") and msg.get("author"):
-                    role = msg["author"].get("role", "unknown").upper()
-                    parts = msg["content"].get("parts", [])
-                    text = "".join([p for p in parts if isinstance(p, str)]).strip()
-                    if text:
-                        content += f"### {role}\n{text}\n\n"
-
-        # Format 2: Claude chat_messages array
-        chat_messages = conv.get("chat_messages", [])
-        if chat_messages:
-            for msg in chat_messages:
-                sender = msg.get("sender", "unknown").upper()
-                text = msg.get("text", "").strip()
-                if text:
-                    content += f"### {sender}\n{text}\n\n"
-
-        if len(content.strip()) > 50:
-            out_path = os.path.join(output_dir, f"archive_chat_{cid[:16]}.md")
-            date_str = datetime.now().strftime("%Y-%m-%d")
-            md = f"""---
-type: chat_extract
-date: "{date_str}"
-source: "Exported Chat: {title}"
----
-
-# Chat Archive: {title}
-
-{content}
-"""
-            with open(out_path, 'w', encoding='utf-8') as out_f:
-                out_f.write(md)
-            new_convs += 1
-            total_chunks += 1
-
-        processed_ids.add(cid)
-
-    log_data['processed_conversations'] = list(processed_ids)
-    save_log(log_data)
-    return new_convs, total_chunks
-
 def extract_chats():
     log_data = load_log()
     processed_ids = set(log_data.get('processed_conversations', []))
     
-    # 1. Harvest from conversations.json if present
-    exp_convs, exp_chunks = extract_from_conversations_json(log_data)
-    if exp_convs > 0:
-        print(f"[Export Parser] Harvested {exp_convs} conversations from raw/imports/conversations.json.")
-
-    # 2. Harvest from local agent brain directory if available
     if not os.path.exists(brain_dir):
-        print(f"[Notice] Local agent transcript directory not found: {brain_dir}")
-        print("Tip: If using Claude Code, Cursor, or ChatGPT, drop 'conversations.json' into 'raw/imports/' or configure AGENT_TRANSCRIPT_DIR in .env.")
+        print(f"[Notice] Antigravity transcript directory not found: {brain_dir}")
         return
 
     conv_dirs = [d for d in os.listdir(brain_dir) if os.path.isdir(os.path.join(brain_dir, d)) and d not in ["Temp", "tempmediaStorage"]]
@@ -142,11 +56,8 @@ def extract_chats():
         if not os.path.exists(transcript_path):
             transcript_path = os.path.join(brain_dir, conv_id, ".system_generated", "logs", "transcript_full.jsonl")
             if not os.path.exists(transcript_path):
-                # Check for standard json/log formats
-                transcript_path = os.path.join(brain_dir, conv_id, "transcript.jsonl")
-                if not os.path.exists(transcript_path):
-                    processed_ids.add(conv_id)
-                    continue
+                processed_ids.add(conv_id)
+                continue
                 
         content = ""
         try:
@@ -173,7 +84,7 @@ def extract_chats():
             md = f"""---
 type: chat_extract
 date: "{date_str}"
-source: "Agent Chat Archive {conv_id}"
+source: "Antigravity Chat Archive {conv_id}"
 ---
 
 # Chat Archive: {conv_id}
@@ -191,7 +102,7 @@ source: "Agent Chat Archive {conv_id}"
     log_data['processed_conversations'] = list(processed_ids)
     save_log(log_data)
     
-    print(f"Extraction complete. Harvested {new_conversations + exp_convs} new conversations into {total_chunks + exp_chunks} markdown files.")
+    print(f"Extraction complete. Harvested {new_conversations} new conversations into {total_chunks} markdown files.")
 
 if __name__ == "__main__":
     extract_chats()
