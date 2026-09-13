@@ -1,4 +1,4 @@
-﻿# Personalized LLM Knowledge Graph & Second Brain System
+# Personalized LLM Knowledge Graph & Second Brain System
 
 A fully autonomous, self-healing Personal Knowledge Base and Knowledge Graph engineered for research, software development, career strategy, and personal knowledge management. Powered by **Google Antigravity Agents**, **Deterministic Python AST Processing Engines**, and **Obsidian Graph View**.
 
@@ -44,6 +44,8 @@ The **Personalized LLM Knowledge Graph** is a production-grade personal knowledg
 4. **Dual-Layer Hygiene & Prevention Architecture**:
    - **Layer A (AI Prompt Rules)**: Strict behavioral directives in `.agents/rules/` that enforce single frontmatter blocks, entity grounding anchors, and plaintext citations at generation time.
    - **Layer B (Deterministic AST Python Engine)**: `scripts/reduce.py` and `scripts/run_linter.py` parse YAML abstract syntax trees, merge set-union properties, and hash paragraphs to eliminate duplicates before committing.
+5. **Knowledge Consolidation over Fragmentation (Rule 04.2)**:
+   - Fragmented notes across multiple subfolders for the same research project or topic are synthesized and unified into a canonical master note, maintaining comprehensive coverage while preventing graph dilution and duplicate link hubs.
 
 ---
 
@@ -166,6 +168,7 @@ All operations are modularized as standard agent skills in `.agents/skills/`:
 - **AST Reducer (`scripts/reduce.py`)**:
   - Parses YAML frontmatter into a dictionary using `pyyaml`.
   - Performs set union operations on `tags`, `aliases`, and `sources`.
+  - Enforces Priority 0 Type Override (`person`, `tool`, `project`) and directory verification (`os.path.isdir`) before evaluating subdomains.
   - Strips incoming secondary frontmatter headers to maintain strict 1-block integrity.
   - Compares normalized 15+ word paragraphs across sections to eliminate duplicate text injection.
 
@@ -198,11 +201,11 @@ The custom Python linter (`scripts/run_linter.py`) executes 22 rigorous determin
 | **4** | **Staleness Check** | **Advisory** | Note has not been updated in over 90 days. |
 | **5** | **Coverage Gaps** | **Advisory** | Note body has fewer than 50 words or contains non-English characters. |
 | **6** | **MOC Sync** | **Structural** | Note is not indexed in its folder's local `_moc.md` file. |
-| **7** | **Orphan Check** | **Advisory** | Note has zero incoming wikilinks from other pages or MOCs. |
+| **7** | **Orphan Check** | **Advisory** | Note has zero incoming wikilinks from other content pages (strictly excludes `_moc.md`, `index.md`, `log.md`, `overview.md` to surface true orphans). |
 | **8** | **Duplicate Filenames** | **Structural** | Two or more files share identical normalized names (stripped of hyphens, underscores, case). |
-| **9** | **Naming Convention** | **Structural** | Filename violates `Underscore_Separated_Title_Case` or contains spaces or illegal characters `()[]{}#%&*|\/:"<>?—.`. |
-| **10** | **Tag→Folder Consistency** | **Structural** | Note tags conflict with designated subfolder mapping rules in `taxonomy.md`. |
-| **11** | **Tag Normalization** | **Structural** | Tag contains uppercase letters, underscores, spaces, or illegal characters (must be lowercase hyphen-separated). |
+| **9** | **Naming Convention** | **Structural** | Filename violates strict `Underscore_Separated_Title_Case` regex (`^[A-Z0-9][A-Za-z0-9]*(_[A-Z0-9][A-Za-z0-9]*)*$`) or contains spaces or illegal characters `()[]{}#%&*|\/:"<>?—.`. |
+| **10** | **Tag→Folder Consistency** | **Structural** | Note tags conflict with designated subfolder mapping rules in `taxonomy.md`. (Enforces Priority 0 Type Overrides for `person`, `tool`, `project`; permits broad domain notes in root; evaluates multi-tag set intersections). |
+| **11** | **Tag Normalization** | **Structural** | Tag contains uppercase letters, underscores, spaces, or non-alphanumeric characters (must be lowercase hyphen-separated). |
 | **12** | **Taxonomy Alignment** | **Advisory** | Note contains tags not registered in `taxonomy.md`. |
 | **13** | **_uncategorized Overflow** | **Advisory** | An `_uncategorized/` folder accumulates 3 or more files sharing the same tag (triggers auto-folder creation). |
 | **14** | **Semantic Title/Alias Dups** | **Structural** | Two distinct files declare identical titles or overlapping YAML `aliases`. |
@@ -210,7 +213,7 @@ The custom Python linter (`scripts/run_linter.py`) executes 22 rigorous determin
 | **16** | **Junk / Phantom Files** | **Structural** | Temporary scraper or editor debris exists (e.g., `item1.md`, `Untitled.md`, `Empty_Document_*.md`). |
 | **17** | **Cross-link Poverty** | **Advisory** | Note contains zero outgoing `[[wikilinks]]` to other concepts in the vault. |
 | **18** | **Content Similarity (TF-IDF)** | **Advisory** | Two notes exhibit $\ge 88\%$ cosine similarity based on word-frequency vectorization. |
-| **19** | **Broken Outgoing Links** | **Structural** | Wikilinks target non-existent files/aliases or include `.md` extensions (root cause of Obsidian ghost nodes). |
+| **19** | **Broken Outgoing Links** | **Structural** | Wikilinks target non-existent files/aliases, include `.md` extensions, or link to raw sources (Rule 04.5 ghost link prevention). |
 | **20** | **Multi-YAML Frontmatter** | **Structural** | Note contains more than one YAML header block (`---...---`) embedded within the markdown body. |
 | **21** | **Repetitive Paragraphs** | **Advisory** | Identical normalized paragraphs of $\ge 15$ words occur multiple times within the same file. |
 | **22** | **Canonical Root Domains** | **Structural** | Root directory under `wiki/` does not belong to the 8 canonical domains or contains spaces. |
@@ -291,10 +294,16 @@ Personalized-LLM-Knowledge-Graph/
 │   │
 │   ├── scripts/                            # Automation Engines & Deterministic Scripts
 │   │   ├── run_linter.py                   # 22-Check Deterministic Wiki Linter
+│   │   ├── linter.py                       # CLI shortcut for run_linter.py
+│   │   ├── ingestor.py                     # CLI entrypoint for Map-Reduce Ingestion
 │   │   ├── generate_mocs.py                # Batch Map of Content (MOC) Generator
 │   │   ├── reduce.py                       # AST YAML & Paragraph-Dedup Merge Reducer
-│   │   ├── extract_emails.py               # JSON to Markdown Email Converter
-│   │   ├── extract_all_chats.py            # Local Chat Transcript Harvester
+│   │   ├── normalize_tags.py               # Tag cleaner & schema type conflict resolver
+│   │   ├── auto_create_folders.py          # Auto-create subfolders from _uncategorized
+│   │   ├── auto_fix_frontmatter.py         # Auto-repair frontmatter fields
+│   │   ├── auto_fix_names.py               # Auto-repair filename casing and forbidden characters
+│   │   ├── extract_emails.py               # JSON to Markdown Email Converter (with glyph sanitization)
+│   │   ├── extract_all_chats.py            # Incremental Antigravity Chat Harvester
 │   │   └── outlook_scraper/                # Headless Playwright Browser Scraper
 │   │
 │   ├── reports/                            # Linter Reports & Health Audits
@@ -314,21 +323,47 @@ All maintenance commands can be executed directly from PowerShell or Bash:
 
 ### 1. Run Complete Quality Assurance (22 Checks)
 ```bash
+# Run the deterministic linter via CLI entrypoint
+python LLM_Wiki_Project/scripts/linter.py
+
+# Or execute the full linter directly
 python LLM_Wiki_Project/scripts/run_linter.py
 ```
 *Outputs detailed diagnostic breakdown to `reports/lint_report.md` and displays health status in terminal.*
 
-### 2. Batch Regenerate All Maps of Content (MOCs)
+### 2. Run Map-Reduce Ingestion Engine
 ```bash
+# Ingest all pending notes in raw/assets/ into the knowledge base
+python LLM_Wiki_Project/scripts/ingestor.py
+```
+
+### 3. Normalize Tags & Resolve Type Conflicts
+```bash
+# Audit and normalize tag hygiene across the vault
+python LLM_Wiki_Project/scripts/normalize_tags.py
+```
+
+### 4. Batch Regenerate All Maps of Content (MOCs)
+```bash
+# Rebuild all local and root _moc.md files
 python LLM_Wiki_Project/scripts/generate_mocs.py
 ```
 
-### 3. Harvest Agent Conversations
+### 5. Harvest Agent Conversations (Incremental)
 ```bash
 python LLM_Wiki_Project/scripts/extract_all_chats.py
 ```
 
-### 4. Git Synchronization Protocol
+### 6. Run Email Ingestion Pipeline
+```bash
+# Step 1: Scrape new emails (requires Outlook session cookies)
+python LLM_Wiki_Project/scripts/outlook_scraper/outlook_scraper.py --scrape --limit 50
+
+# Step 2: Extract scraped emails into markdown assets
+python LLM_Wiki_Project/scripts/extract_emails.py
+```
+
+### 7. Git Synchronization Protocol
 ```bash
 git status -s
 git add -A

@@ -4,7 +4,7 @@ title: "Business Map of Content"
 aliases: ["Business MOC", "Business Map of Content"]
 description: "Navigation hub for Business domain pages."
 tags: [business]
-timestamp: 2026-09-02
+timestamp: 2026-09-13
 sources: []
 domain: business
 ---

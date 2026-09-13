@@ -11,7 +11,7 @@
 
 ### Skills (`.agents/skills/`)
 - [Skill: extract](file:///.agents/skills/extract/SKILL.md) - Extracts knowledge from conversations, Drive files, or Gemini exports.
-- [Skill: extract_all](file:///.agents/skills/extract_all/SKILL.md) - Proactive Knowledge Hunter (Harvests past chats & fills wiki coverage gaps).
+- [Skill: extract_all](file:///.agents/skills/extract_all/SKILL.md) - Omni-channel Proactive Knowledge Hunter (Harvests Outlook emails, chats, Drive docs & fills wiki coverage gaps).
 - [Skill: ingest](file:///.agents/skills/ingest/SKILL.md) - Compiles raw sources into structured, interlinked markdown wiki pages with domain routing and MOC updates.
 - [Skill: lint](file:///.agents/skills/lint/SKILL.md) - Runs comprehensive Two-Phase health checks (Syntactic + Semantic) on the LLM Wiki.
 - [Skill: all](file:///.agents/skills/all/SKILL.md) - End-to-end knowledge pipeline running Scrape → Extract → Ingest → MOC → Lint.

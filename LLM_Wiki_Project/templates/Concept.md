@@ -17,4 +17,4 @@ sources: []
 ## Related Entities & Concepts
 
 ## Sources
-<!-- Add Obsidian wikilinks to raw files: [[raw/assets/filename|Display Name]] -->
+<!-- Cite raw source files as plain text strings: - filename.md (DO NOT use [[wikilinks]]) -->

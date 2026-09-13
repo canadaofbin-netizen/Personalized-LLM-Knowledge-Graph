@@ -1,11 +1,17 @@
 ---
 name: extract_all
-description: End-to-end Proactive Knowledge Hunter. Harvests all past conversations and actively researches missing information to fill wiki coverage gaps.
+description: End-to-end Proactive Knowledge Hunter. Harvests all past conversations, Outlook emails, Google Drive documents, and actively researches missing information to fill wiki coverage gaps.
 ---
 
 # `/extract_all` — The Proactive Knowledge Hunter
 
-This skill orchestrates a massive extraction and proactive research pipeline to gather maximum knowledge before handing off to `/ingest`.
+This skill orchestrates a massive omni-channel extraction and proactive research pipeline (Emails → Chats → Drive → Web Gaps) to gather maximum knowledge before handing off to `/ingest`.
+
+## Stage 0: Outlook Email Harvester & Extractor
+Scrapes and parses emails from Outlook OWA across Inbox, Sent Items, and Archive folders.
+- **Scraper**: Run `python "LLM_Wiki_Project/scripts/outlook_scraper/outlook_scraper.py" --scrape --limit 50` (or configured limit) to refresh `LLM_Wiki_Project/raw/imports/outlook_emails.json`.
+- **Extractor**: Run `python "LLM_Wiki_Project/scripts/extract_emails.py"` to convert `outlook_emails.json` into schema-compliant individual markdown notes inside `LLM_Wiki_Project/raw/assets/emails/`.
+- **Failsafe**: If an authentication or session error occurs, log the notice and continue to Stage 1 without aborting.
 
 ## Stage 1: Pan-Conversation Harvester
 Extracts knowledge from ALL historical agent conversations.

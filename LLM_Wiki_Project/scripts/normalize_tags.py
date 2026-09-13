@@ -4,6 +4,11 @@ import re
 
 WIKI_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "wiki")
 
+SCHEMA_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "schema.yaml")
+with open(SCHEMA_FILE, 'r', encoding='utf-8') as f:
+    schema = yaml.safe_load(f)
+VALID_TYPES = set(schema.get('valid_types', []))
+
 def normalize_tags_in_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -43,14 +48,12 @@ def normalize_tags_in_file(filepath):
             tag = tag.split('/')[-1]
             
         # 3. Handle plurals/specific mappings
-        if tag == 'concepts':
-            tag = 'concept'
         if tag == 'papers':
-            tag = 'reading-notes' # Map academic/papers to reading-notes, though they should be classified by type.
+            tag = 'reading-notes'  # Map academic/papers to reading-notes
             
-        # 4. Remove meaningless migration tags
-        if tag in ['consolidated', 'reading_note', 'entity']:
-            tag = None # Drop 'consolidated', or type-based tags that shouldn't be in the tags array
+        # 4. Remove type-based tags and plurals that shouldn't be in the tags array (Rule 01 & Check 11)
+        if tag in VALID_TYPES or tag in {'concepts', 'entities', 'tools', 'projects', 'consolidated'}:
+            tag = None  # Drop type-based tags that violate tag hygiene
             
         if tag and orig_tag != tag:
             changed = True

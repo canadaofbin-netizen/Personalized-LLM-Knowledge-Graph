@@ -1,5 +1,5 @@
 import sys
-sys.stdout.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8', line_buffering=True)
 from playwright.sync_api import sync_playwright
 import time
 import json
@@ -22,7 +22,8 @@ def login():
         page.wait_for_selector('div[aria-label="Message list"]', timeout=300000) # 5 minutes timeout
         
         print("Inbox detected! Saving session state to auth.json...")
-        context.storage_state(path='auth.json')
+        auth_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'auth.json')
+        context.storage_state(path=auth_path)
         print("✅ Session saved successfully. You can close this window and run with --scrape.")
         
         browser.close()

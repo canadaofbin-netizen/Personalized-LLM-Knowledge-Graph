@@ -25,7 +25,9 @@ FORBIDDEN_CHARS = set('()[]{}#%&*|\\/:"<>?—.')
 
 def parse_frontmatter(content):
     """Parse YAML frontmatter from markdown content."""
-    if content.startswith('---'):
+    content_clean = content.lstrip('\ufeff \r\n')
+    if content_clean.startswith('---'):
+        content = content_clean
         parts = content.split('---', 2)
         if len(parts) >= 3:
             try:
@@ -192,11 +194,16 @@ def run_linter():
     junk_file_errors = []
     crosslink_warnings = []
     content_duplicate_errors = []
+    broken_link_errors = []
+    multi_yaml_errors = []
+    repetitive_para_warnings = []
+    root_domain_errors = []
 
     structural_errors_count = 0
 
     files_data = {}
     all_links = set()
+    inbound_content_links = set()
     normalized_names = defaultdict(list)
     title_map = defaultdict(list)  # normalized title -> [relpath, ...]
     semantic_map = defaultdict(set)  # normalized string (title or alias) -> set of relpaths
@@ -213,13 +220,22 @@ def run_linter():
             relpath = os.path.relpath(filepath, WIKI_DIR).replace('\\', '/')
             folder = os.path.dirname(relpath)
 
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, 'r', encoding='utf-8-sig') as f:
                 content = f.read()
 
             fm, body = parse_frontmatter(content)
             links = extract_links(body)
             for link in links:
                 all_links.add(link.split('|')[0].lower().replace(' ', '_'))
+
+            # Check 7: Collect content note links excluding MOCs, index, and log
+            if file not in {'_moc.md', 'index.md', 'log.md', 'overview.md'}:
+                for link in links:
+                    clean_link = link.split('|')[0].split('#')[0].strip().replace('\\', '/')
+                    if clean_link:
+                        inbound_content_links.add(clean_link.lower().replace(' ', '_'))
+                        stem = clean_link.split('/')[-1].lower().replace(' ', '_')
+                        inbound_content_links.add(stem)
 
             tags = fm.get('tags', [])
             if not isinstance(tags, list):
@@ -235,6 +251,7 @@ def run_linter():
             files_data[relpath] = {
                 'fm': fm,
                 'body': body,
+                'raw_content': content,
                 'links': links,
                 'folder': folder,
                 'name': file,
@@ -254,6 +271,12 @@ def run_linter():
                     naming_errors.append(f"{relpath}: Filename contains forbidden character '{ch}'")
                     structural_errors_count += 1
                     break  # One error per file for forbidden chars
+
+            # Check for Title_Case regex validation (Rule 04.1)
+            if file not in SKIP_FILES and file != '_moc.md':
+                if not re.match(r'^[A-Z0-9][A-Za-z0-9-]*(_([A-Z0-9][A-Za-z0-9-]*|x|of|and|in|for|to|the|a|an))*$', basename_no_ext):
+                    naming_errors.append(f"{relpath}: Filename '{file}' violates Underscore_Separated_Title_Case")
+                    structural_errors_count += 1
 
             # Duplicate detection normalization (skip _moc.md — expected in every folder)
             if file != '_moc.md':
@@ -362,29 +385,42 @@ def run_linter():
                 crosslink_warnings.append(f"{relpath}: No wikilinks — isolated note")
 
             # Check 10: Tag→Folder Consistency
-            expected_folder = None
-            expected_domain = None
-
-            # Tag-based routing
-            for subfolder, rule in tag_folder_mapping.items():
-                if 'tags' in rule:
-                    for tag in tags:
-                        if tag.lower() in rule['tags']:
-                            expected_folder = subfolder
-                            expected_domain = subfolder.split('/')[0]
-                            break
-                if expected_folder:
-                    break
-
-            if expected_folder:
-                if folder.endswith('_uncategorized'):
-                    current_domain = folder.split('/')[0]
-                    if current_domain != expected_domain:
-                        tag_folder_errors.append(f"{relpath}: Tags suggest domain {expected_domain}/ but is in {current_domain}/_uncategorized/")
-                        structural_errors_count += 1
-                elif folder != expected_folder:
-                    tag_folder_errors.append(f"{relpath}: Tags suggest {expected_folder}/ but is in {folder}/")
+            # Priority 0: Type Override (notes with type person, tool, project are routed by type, not tags)
+            if ftype in ('person', 'tool', 'project'):
+                pass
+            # Allow broad/cross-cutting notes to reside in domain root (folder has no subfolder)
+            elif '/' not in folder:
+                pass
+            elif folder.endswith('_uncategorized'):
+                current_domain = folder.split('/')[0]
+                expected_domain = None
+                for subfolder, rule in tag_folder_mapping.items():
+                    if 'tags' in rule and any(t.lower() in rule['tags'] for t in tags):
+                        expected_domain = subfolder.split('/')[0]
+                        break
+                if expected_domain and current_domain != expected_domain:
+                    tag_folder_errors.append(f"{relpath}: Tags suggest domain {expected_domain}/ but is in {current_domain}/_uncategorized/")
                     structural_errors_count += 1
+            else:
+                # Note is in a subfolder. Pass if ANY of its tags match that subfolder.
+                subfolder_rule = tag_folder_mapping.get(folder)
+                matches_current = False
+                if subfolder_rule and 'tags' in subfolder_rule:
+                    matches_current = any(t.lower() in subfolder_rule['tags'] for t in tags)
+                if not matches_current:
+                    subfolder_name = folder.split('/')[-1].lower()
+                    matches_current = any(t.lower() == subfolder_name for t in tags)
+
+                if not matches_current:
+                    current_domain = folder.split('/')[0]
+                    expected_folder = None
+                    for subfolder, rule in tag_folder_mapping.items():
+                        if subfolder.startswith(current_domain + '/') and 'tags' in rule and any(t.lower() in rule['tags'] for t in tags):
+                            expected_folder = subfolder
+                            break
+                    if expected_folder and folder != expected_folder:
+                        tag_folder_errors.append(f"{relpath}: Tags suggest {expected_folder}/ but is in {folder}/")
+                        structural_errors_count += 1
 
             # Check 11: Tag Normalization
             for tag in tags:
@@ -428,7 +464,9 @@ def run_linter():
             # Check if all files are listed in MOC
             moc_links = set()
             for link in files_data[moc_path].get('links', []):
-                moc_links.add(link.split('|')[0].lower().replace(' ', '_'))
+                clean_target = link.split('|')[0].lower().replace(' ', '_')
+                moc_links.add(clean_target)
+                moc_links.add(clean_target.split('/')[-1])
 
             for fp in folder_files:
                 fname = os.path.basename(fp).replace('.md', '').lower().replace(' ', '_')
@@ -445,13 +483,14 @@ def run_linter():
                     moc_errors.append(f"{moc_path}: Dead link [[{link.split('|')[0]}]] — file does not exist")
                     structural_errors_count += 1
 
-    # Check 7: Orphan Check
+    # Check 7: Orphan Check (Advisory — excludes _moc.md, index.md, and log.md)
     for relpath, data in files_data.items():
         if data['name'] in SKIP_FILES or data['name'] == '_moc.md':
             continue
         base_name = data['name'].replace('.md', '').lower().replace(' ', '_')
-        if base_name not in all_links:
-            orphan_warnings.append(f"{relpath}: No internal links point to this file")
+        rel_stem = relpath.lower().replace('.md', '').replace(' ', '_')
+        if base_name not in inbound_content_links and rel_stem not in inbound_content_links:
+            orphan_warnings.append(f"{relpath}: No content notes link to this file")
 
     # Check 8: Duplicate Detection (filename-based)
     for norm_name, paths in normalized_names.items():
@@ -478,10 +517,103 @@ def run_linter():
             uncategorized_overflow.append(f"Tag '{tag}' in {len(paths)} uncategorized files → candidate for new subfolder: {', '.join(paths[:5])}")
             pass
 
+    # Check 18: Content Similarity (TF-IDF / Cosine Similarity)
+    content_list = [
+        (rp, d['body']) for rp, d in files_data.items()
+        if d['name'] not in SKIP_FILES and d['name'] != '_moc.md' and len(d.get('body', '').split()) >= 30
+    ]
+    word_counters = {rp: Counter(re.findall(r'\w+', body.lower())) for rp, body in content_list}
+    norms = {rp: math.sqrt(sum(v * v for v in ctr.values())) for rp, ctr in word_counters.items()}
+
+    seen_sim_pairs = set()
+    for i in range(len(content_list)):
+        rp1, _ = content_list[i]
+        ctr1 = word_counters[rp1]
+        norm1 = norms[rp1]
+        if norm1 == 0:
+            continue
+        for j in range(i + 1, len(content_list)):
+            rp2, _ = content_list[j]
+            norm2 = norms[rp2]
+            if norm2 == 0:
+                continue
+            common = set(ctr1.keys()) & set(word_counters[rp2].keys())
+            dot = sum(ctr1[w] * word_counters[rp2][w] for w in common)
+            sim = dot / (norm1 * norm2)
+            if sim >= 0.88:
+                pair_key = tuple(sorted([rp1, rp2]))
+                if pair_key not in seen_sim_pairs:
+                    seen_sim_pairs.add(pair_key)
+                    content_duplicate_errors.append(f"High similarity ({sim*100:.1f}%): {rp1} <-> {rp2}")
+
+    # Check 19: Broken Outgoing Links (Ghost Node Prevention) [Structural]
+    valid_targets = set()
+    for rp, d in files_data.items():
+        stem = d['name'].lower()
+        if stem.endswith('.md'):
+            stem = stem[:-3]
+        valid_targets.add(stem)
+        valid_targets.add(rp.lower())
+        if rp.lower().endswith('.md'):
+            valid_targets.add(rp.lower()[:-3])
+        for al in d.get('fm', {}).get('aliases', []) or []:
+            valid_targets.add(str(al).lower())
+
+    for rp, d in files_data.items():
+        if d['name'] in SKIP_FILES or d['name'] == '_moc.md':
+            continue
+        body = d.get('body', '')
+        links = re.findall(r'\[\[([^\]|#]+)(?:\\?[|#][^\]]*)?\]\]', body)
+        for link in links:
+            cl = link.strip().rstrip('\\').replace('\\', '/').lower()
+            if cl.endswith('.md'):
+                broken_link_errors.append(f"{rp}: Link '[[{link}]]' references .md extension/raw file")
+                structural_errors_count += 1
+            else:
+                stem = cl.split('/')[-1]
+                if cl not in valid_targets and stem not in valid_targets:
+                    broken_link_errors.append(f"{rp}: Unresolved link '[[{link}]]'")
+                    structural_errors_count += 1
+
+    # Check 20: Multi-YAML Frontmatter Guard [Structural]
+    for rp, d in files_data.items():
+        raw_c = d.get('raw_content', '')
+        delims = list(re.finditer(r'^---\s*$', raw_c, re.MULTILINE))
+        if len(delims) > 2:
+            parts = raw_c.split('---')
+            for p in parts[2:]:
+                if 'type:' in p and ('tags:' in p or 'title:' in p):
+                    multi_yaml_errors.append(f"{rp}: Embedded secondary YAML block detected in body")
+                    structural_errors_count += 1
+                    break
+
+    # Check 21: Repetitive Paragraph / Copy-Paste Bloat Guard [Advisory]
+    for rp, d in files_data.items():
+        if d['name'] in SKIP_FILES or d['name'] == '_moc.md':
+            continue
+        body = d.get('body', '')
+        paragraphs = [p.strip() for p in body.split('\n\n') if len(p.strip().split()) >= 15]
+        para_counts = Counter(re.sub(r'\s+', ' ', p).lower() for p in paragraphs)
+        dups = [p for p, count in para_counts.items() if count >= 2]
+        if dups:
+            repetitive_para_warnings.append(f"{rp}: Contains {len(dups)} repetitive paragraph(s)")
+
+    # Check 22: Canonical Root Domain Whitelist [Structural]
+    CANONICAL_DOMAINS = {'academic', 'business', 'career', 'dev', 'people', 'personal', 'projects', 'tools'}
+    for item in os.listdir(WIKI_DIR):
+        item_path = os.path.join(WIKI_DIR, item)
+        if os.path.isdir(item_path):
+            if item not in CANONICAL_DOMAINS:
+                root_domain_errors.append(f"Non-canonical or spaced root domain: 'wiki/{item}/'")
+                structural_errors_count += 1
+
     # Calculate health — separate structural from advisory
     advisory_count = (len([c for c in coverage_gaps if 'Too short' in c])
+                      + len(orphan_warnings)
                       + len(taxonomy_errors)
-                      + len(merge_debris_warnings) + len(crosslink_warnings))
+                      + len(merge_debris_warnings) + len(crosslink_warnings)
+                      + len(content_duplicate_errors)
+                      + len(repetitive_para_warnings))
     if structural_errors_count == 0:
         health = "🟢 Green (0 structural errors)"
     elif structural_errors_count < 20:
@@ -511,29 +643,11 @@ def run_linter():
         ("16. Junk/Phantom Files", junk_file_errors),
         ("17. Cross-link Poverty", crosslink_warnings),
         ("18. Content Similarity (TF-IDF)", content_duplicate_errors),
+        ("19. Broken Outgoing Links", broken_link_errors),
+        ("20. Multi-YAML Frontmatter Guard", multi_yaml_errors),
+        ("21. Repetitive Paragraphs", repetitive_para_warnings),
+        ("22. Canonical Root Domain Whitelist", root_domain_errors),
     ]
-
-
-
-    # Check 18: Content Similarity (Semantic Duplication)
-    file_list = list(files_data.items())
-    n = len(file_list)
-    for i in range(n):
-        for j in range(i + 1, n):
-            path1, data1 = file_list[i]
-            path2, data2 = file_list[j]
-            if data1['name'] in SKIP_FILES or data2['name'] in SKIP_FILES:
-                continue
-                
-            name1 = data1['name'].replace('.md', '').lower()
-            name2 = data2['name'].replace('.md', '').lower()
-            
-            # Content sim
-            if len(data1.get('body', '').split()) > 30 and len(data2.get('body', '').split()) > 30:
-                content_sim = cosine_similarity(data1.get('body', ''), data2.get('body', ''))
-                if content_sim > 0.75:
-                    content_duplicate_errors.append(f"{path1} <-> {path2} (Content Similarity: {content_sim:.2f})")
-                    pass
 
     report = f"# Wiki Linter Report\n\nGenerated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
     report += f"## Overall Health\n\n**Status:** {health}\n\n"
@@ -554,7 +668,9 @@ def run_linter():
     structural_checks = {"1. Schema Integrity", "2. Type Validation", "3. Domain Placement",
                          "6. MOC Sync", "8. Duplicate Detection (Filename)", "9. Naming Convention",
                          "10. Tag\u2192Folder Consistency", "11. Tag Normalization",
-                         "14. Semantic Duplicate (Title/Alias)", "16. Junk/Phantom Files"}
+                         "14. Semantic Duplicate (Title/Alias)", "16. Junk/Phantom Files",
+                         "19. Broken Outgoing Links", "20. Multi-YAML Frontmatter Guard",
+                         "22. Canonical Root Domain Whitelist"}
     report += "## Overall Health Table\n\n"
     report += "| # | Check | Category | Status | Count |\n"
     report += "|---|-------|----------|--------|-------|\n"

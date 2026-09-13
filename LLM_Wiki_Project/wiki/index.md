@@ -4,7 +4,6 @@ title: LLM Wiki Index
 description: Catalog and entry point for the LLM Wiki.
 tags:
 - wiki-management
-- index
 timestamp: 2026-08-08
 sources: []
 aliases: []

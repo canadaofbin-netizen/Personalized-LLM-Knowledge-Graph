@@ -27,11 +27,11 @@ def extract_tag_folder_mapping():
         tags_cell = parts[1].strip()
         folder_cell = parts[2].strip()
 
-        folder_match = re.search(r'`(academic/\w+)/`', folder_cell)
+        folder_match = re.search(r'`([\w-]+/[\w-]+)/`', folder_cell)
         if not folder_match:
             if 'type=' in tags_cell:
                 type_match = re.search(r'type=`(\w+)`', tags_cell)
-                folder_match2 = re.search(r'`(academic/\w+)/`', folder_cell)
+                folder_match2 = re.search(r'`([\w-]+/[\w-]+)/`', folder_cell)
                 if type_match and folder_match2:
                     mapping.setdefault(folder_match2.group(1), {'types': set(), 'tags': set()})
                     mapping[folder_match2.group(1)]['types'].add(type_match.group(1))
@@ -101,7 +101,7 @@ def migrate_files():
             relpath = os.path.relpath(filepath, WIKI_DIR).replace('\\', '/')
             current_folder = os.path.dirname(relpath)
             
-            if not current_folder.startswith('academic'):
+            if current_folder.startswith('templates') or current_folder.startswith('scripts') or current_folder.startswith('raw'):
                 continue
                 
             try:
@@ -125,7 +125,7 @@ def migrate_files():
             if isinstance(tags, str): tags = [t.strip() for t in tags.split(',')]
             if not isinstance(tags, list): tags = []
             
-            expected_folder = 'academic/_uncategorized' # Default fallback
+            expected_folder = current_folder
             
             if ftype == 'reading_note':
                 expected_folder = 'academic/reading_notes'

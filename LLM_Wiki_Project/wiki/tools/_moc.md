@@ -1,9 +1,10 @@
 ---
 type: moc
-title: "Tools Map of Content"
-aliases: ["Tools MOC"]
-description: "Navigation hub for Tools domain pages."
-tags: [tools]
+title: Tools Map of Content
+aliases:
+- Tools MOC
+description: Navigation hub for Tools domain pages.
+tags: []
 timestamp: 2026-08-21
 sources: []
 domain: tools

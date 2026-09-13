@@ -4,7 +4,7 @@ title: "Career Map of Content"
 aliases: ["Career MOC", "Career Map of Content"]
 description: "Navigation hub for Career domain pages."
 tags: [career]
-timestamp: 2026-09-02
+timestamp: 2026-09-13
 sources: []
 domain: career
 ---

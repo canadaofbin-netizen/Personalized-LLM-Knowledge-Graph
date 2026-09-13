@@ -1,9 +1,10 @@
 ---
 type: moc
-title: "Projects Map of Content"
-aliases: ["Projects MOC"]
-description: "Navigation hub for Projects domain pages."
-tags: [projects]
+title: Projects Map of Content
+aliases:
+- Projects MOC
+description: Navigation hub for Projects domain pages.
+tags: []
 timestamp: 2026-08-21
 sources: []
 domain: projects
