@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="assets/obsidian_graph_real.png" alt="Personalized LLM Knowledge Graph" width="100%" />
+  <br>
+  <em><b>Figure 1:</b> Production Obsidian Knowledge Graph — High-density multi-domain semantic galaxy surrounded by orbital index clusters and celestial knowledge nodes.</em>
+</p>
+
 # Personalized LLM Knowledge Graph & Second Brain System
 
 A fully autonomous, self-healing Personal Knowledge Base and Knowledge Graph engineered for research, software development, career strategy, and personal knowledge management. Powered by **Google Antigravity Agents**, **Deterministic Python AST Processing Engines**, and **Obsidian Graph View**.
@@ -222,6 +228,19 @@ The custom Python linter (`scripts/run_linter.py`) executes 22 rigorous determin
 
 ## 6. Obsidian Graph View & UI Configuration
 
+To maintain visual clarity across large-scale knowledge graphs, Obsidian workspace configurations are tuned to eliminate unreferenced clutter and distinguish canonical domains by color.
+
+<p align="center">
+  <img src="assets/obsidian_graph_real.png" alt="Obsidian Graph View Architecture" width="90%" />
+</p>
+
+<p align="center">
+  <img src="assets/obsidian_graph_macro.jpg" alt="Macro Graph Topology" width="49%" />
+  <img src="assets/obsidian_graph_cluster.jpg" alt="Semantic Domain Clusters" width="49%" />
+  <br>
+  <em><b>Figure 2:</b> Macro Graph Topology (left) and High-Density Semantic Domain Clustering (right).</em>
+</p>
+
 ### Exclusion Filters (`.obsidian/app.json`)
 The following patterns are excluded from Obsidian's quick switcher, search index, and graph visualization:
 ```json
@@ -237,16 +256,24 @@ The following patterns are excluded from Obsidian's quick switcher, search index
 ```
 
 ### Graph Physics & Color Palette (`.obsidian/graph.json`)
-- **Ghost Node Suppression**: `"hideUnresolved": true` is enforced so that uncreated links do not render as hollow grey nodes.
-- **Color Mapping by Schema Type**:
-  - `concept`: `#60A5FA` (Blue)
-  - `person`: `#F472B6` (Pink)
-  - `project`: `#34D399` (Emerald Green)
-  - `tool`: `#FBBF24` (Amber Yellow)
-  - `academic`: `#A78BFA` (Purple)
-  - `business`: `#FB923C` (Orange)
-  - `overview`: `#F87171` (Coral Red)
-  - `moc`: `#9CA3AF` (Slate Grey)
+- **Ghost Node Suppression**: `"hideUnresolved": true` is enforced so that links without matching files do not render as hollow grey nodes.
+- **Force-Directed Physics Settings**:
+  - `centerStrength: 0.35`
+  - `repelStrength: 16.0`
+  - `linkStrength: 0.8`
+  - `linkDistance: 280`
+- **Canonical Domain Color Palette**:
+
+| Domain | Color Code | Color Name | Knowledge Scope & Cluster Focus |
+| :--- | :--- | :--- | :--- |
+| **`academic/`** | `#00E5FF` | Neon Cyan | Scientific Research, Empirical Studies, Cognitive Science, Modular Knowledge |
+| **`business/`** | `#00E676` | Emerald Green | Organizational Strategy, Management Science, Corporate Intelligence |
+| **`career/`** | `#FFD600` | Golden Amber | Professional Profiles, Target Organizations, Interview Preparation |
+| **`dev/`** | `#7C4DFF` | Electric Violet | Autonomous Agent Pipelines, AST Engines, Automation & Scripting |
+| **`people/`** | `#FF6E40` | Coral Orange | Collaborators, Mentors, Domain Experts, Professional Network |
+| **`personal/`** | `#78909C` | Soft Slate | Retrospectives, Milestones, Growth Goals, Principles |
+| **`projects/`** | `#FF1744` | Vivid Crimson | Active Engineering Initiatives, Research Pipelines, Prototypes |
+| **`tools/`** | `#2979FF` | Royal Blue | Developer Utilities, Software Platforms, Data Infrastructure |
 
 ---
 
@@ -269,6 +296,11 @@ Personalized-LLM-Knowledge-Graph/
 │       ├── lint/SKILL.md                   # Two-phase health check & 22-check catalog
 │       ├── query/SKILL.md                  # Grounded wiki question-answering
 │       └── scrape_emails/SKILL.md          # Playwright Outlook email scraper
+│
+├── assets/                                 # Visual Assets & Knowledge Graph Screenshots
+│   ├── obsidian_graph_real.png             # Full Graph View Architecture
+│   ├── obsidian_graph_macro.jpg            # Macro Graph Topology
+│   └── obsidian_graph_cluster.jpg          # Clustered Domain Semantic View
 │
 ├── .env.example                            # Configuration template for paths & API keys
 │
