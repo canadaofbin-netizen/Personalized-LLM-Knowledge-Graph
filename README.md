@@ -234,13 +234,6 @@ To maintain visual clarity across large-scale knowledge graphs, Obsidian workspa
   <img src="assets/obsidian_graph_real.png" alt="Obsidian Graph View Architecture" width="90%" />
 </p>
 
-<p align="center">
-  <img src="assets/obsidian_graph_macro.jpg" alt="Macro Graph Topology" width="49%" />
-  <img src="assets/obsidian_graph_cluster.jpg" alt="Semantic Domain Clusters" width="49%" />
-  <br>
-  <em><b>Figure 2:</b> Macro Graph Topology (left) and High-Density Semantic Domain Clustering (right).</em>
-</p>
-
 ### Exclusion Filters (`.obsidian/app.json`)
 The following patterns are excluded from Obsidian's quick switcher, search index, and graph visualization:
 ```json
@@ -298,9 +291,7 @@ Personalized-LLM-Knowledge-Graph/
 │       └── scrape_emails/SKILL.md          # Playwright Outlook email scraper
 │
 ├── assets/                                 # Visual Assets & Knowledge Graph Screenshots
-│   ├── obsidian_graph_real.png             # Full Graph View Architecture
-│   ├── obsidian_graph_macro.jpg            # Macro Graph Topology
-│   └── obsidian_graph_cluster.jpg          # Clustered Domain Semantic View
+│   └── obsidian_graph_real.png             # Production Knowledge Graph Screenshot
 │
 ├── .env.example                            # Configuration template for paths & API keys
 │
